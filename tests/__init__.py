@@ -1,5 +1,7 @@
 import robotframework_construct
+import robotframework_construct.reflector
 import pytest
+import socket
 
 
 def test_impossible_params():
@@ -26,3 +28,13 @@ def test_impossible_params():
     with pytest.raises(AssertionError) as excinfo:
         robotframework_construct.robotframework_construct().open_socket("raw", 0,0)
     assert "protocol should be either `TCP or `UDP´, but was `raw´" == str(excinfo.value)
+
+def test_tcp_internals():
+    with pytest.raises(AssertionError):
+        for _ in range(10):
+            r = robotframework_construct.reflector.reflector()
+            ps = r.reflector("tcp")
+            for p in ps:
+                sockets = [socket.socket(socket.AF_INET, socket.SOCK_STREAM) for _ in range(2)]
+                for s in sockets:
+                    s.connect(("127.0.0.1", p))

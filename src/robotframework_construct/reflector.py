@@ -31,7 +31,7 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
                         conDict = {conns[0]: conns[1], conns[1]: conns[0]}
                         recvAble, _, __ =  select.select(conDict.values(), [], [], 1)
                         for s in recvAble:
-                            conDict[s].send(s.recv(0x80000000))
+                            conDict[s].send(s.recv(4096))
 
                 case Protocol.UDP:
                     for s in initialSockets:
@@ -44,7 +44,8 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
                     while not coms.is_set():
                         recvAble, _, __ =  select.select(initialSockets, [], [], 1)
                         for s in recvAble:
-                            data, _ = s.recvfrom(0x80000000)
+                            max_datagram_size = s.getsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF)
+                            data = s.recv(max_datagram_size)
                             conDict[s].sendto(data, ("localhost", _port_mapping[portDict[s]]))
 
 class reflector:
