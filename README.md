@@ -10,6 +10,8 @@ Aiming for :rocket: speed, :white_check_mark: reliability, and :microscope: visi
 
 Ideally, your binary data becomes as accessible as numbers and strings are in Robot Framework.
 
+Checkout the documentation at [robotframework-construct](https://marketsquare.github.io/robotframework-construct/)
+
 ### Use cases
 
 - Test your production construct specification against a reference implementation of the same protocol.
@@ -69,8 +71,12 @@ Since this project consists primarily of interface code, it is crucial to catch 
 - [x] Generating functionality demonstrated with a binary file.
 - [x] Register read/write demonstrated with a mockup register.
 - [x] Receive/transmit network example using DNS.
-- [ ] Reflector tool to allow to implement servers using clients.
+- [x] Reflector tool to allow to implement servers using clients.
 - [x] Upload wheel to pypi.
-- [ ] Documentation and tutorials.
+- [ ] Increase test coverage (Mutant killing) of the reflector
+- [ ] Add real world example with binary interface to Readme
+- [x] Have libdoc documentation online for all keywords
+- [ ] User guide and tutorials.
+- [ ] Example on how to breakout of the python ecosystem
 - [ ] Midway review with Robot Framework Foundation.
 - [ ] Final review with Robot Framework Foundation.
