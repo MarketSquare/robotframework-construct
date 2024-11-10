@@ -24,11 +24,11 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
 
                     toAccept = set(initialSockets)
                     conns = []
-                    while toAccept and False is coms.is_set():
+                    while toAccept and not coms.is_set():
                         recvAble, _, __ =  select.select(toAccept, [], [], 1)
                         toAccept = toAccept ^ set(recvAble)
                         conns.extend([s.accept()[0] for s in recvAble])
-                    while False is coms.is_set():
+                    while not coms.is_set():
                         conDict = {conns[0]: conns[1], conns[1]: conns[0]}
                         recvAble, _, __ =  select.select(conDict.values(), [], [], 1)
                         for s in recvAble:
@@ -43,7 +43,7 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
                     portQ.put(ports)
                     conDict = {s1: s2, s2: s1}
                     portDict = {key: value for key, value in zip([s2, s1], ports)}
-                    while False is coms.is_set():
+                    while not coms.is_set():
                         recvAble, _, __ =  select.select(initialSockets, [], [], 1)
                         for s in recvAble:
                             data, _ = s.recvfrom(0x80000000)
@@ -72,7 +72,8 @@ class reflector:
         """
         assert self._thread is None, "Reflector is already running"
         portQ = queue.Queue()
-        self._thread = threading.Thread(target=_reflect, daemon=True, args=(protocol, self._please_die, portQ)).start()
+        self._thread = threading.Thread(target=_reflect, daemon=True, args=(protocol, self._please_die, portQ))
+        self._thread.start()
         port1, port2 = portQ.get()
         self._port1    = port1
         self._port2    = port2
