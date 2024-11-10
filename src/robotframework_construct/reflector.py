@@ -25,7 +25,6 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
                         for item in recvAble:
                             conns.append(item.accept()[0])
                             item.close()
-                        for item in recvAble:
                             initialSockets.remove(item)
 
                     while not coms.is_set():
