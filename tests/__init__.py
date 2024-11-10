@@ -26,5 +26,3 @@ def test_impossible_params():
     with pytest.raises(AssertionError) as excinfo:
         robotframework_construct.robotframework_construct().open_socket("raw", 0,0)
     assert "protocol should be either `TCP or `UDP´, but was `raw´" == str(excinfo.value)
-
-
