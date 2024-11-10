@@ -9,7 +9,6 @@ import queue
 
 def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> None:
         protocolType = {Protocol.TCP: socket.SOCK_STREAM, Protocol.UDP: socket.SOCK_DGRAM}[protocol]
-
         with socket.socket(socket.AF_INET, protocolType) as s1, socket.socket(socket.AF_INET, protocolType) as s2:
             initialSockets = [s1, s2]
             match protocol:
@@ -17,17 +16,18 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
                     for s in initialSockets:
                         s.bind(('', 0))
                         s.listen(1)
-                        s.setblocking(False)
                     
                     ports = tuple([s.getsockname()[1] for s in initialSockets])
                     portQ.put(ports)
-
                     toAccept = set(initialSockets)
                     conns = []
                     while toAccept and not coms.is_set():
                         recvAble, _, __ =  select.select(toAccept, [], [], 1)
                         toAccept = toAccept ^ set(recvAble)
                         conns.extend([s.accept()[0] for s in recvAble])
+                        for s in recvAble:
+                            s.close()
+
                     while not coms.is_set():
                         conDict = {conns[0]: conns[1], conns[1]: conns[0]}
                         recvAble, _, __ =  select.select(conDict.values(), [], [], 1)
@@ -37,7 +37,6 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
                 case Protocol.UDP:
                     for s in initialSockets:
                         s.bind(('', 0))
-                        s.setblocking(False)
                     
                     ports = tuple([s.getsockname()[1] for s in initialSockets])
                     portQ.put(ports)

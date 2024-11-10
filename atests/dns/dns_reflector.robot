@@ -24,4 +24,7 @@ basic dns request udp
     ${record2}=       Parse `${connection1}´ using construct `${dns_payload_udp}´
     Shutdown Reflector
 
-
+negative reflect tests
+    ${PORT1}    ${PORT2}=           Reflect traffic between ports using `TCP´
+    ${connection1}=                 Open TCP connection to server `127.0.0.1´ on port `${PORT1}´
+    Run Keyword And Expect Error    *ConnectionRefusedError: * Connection refused      Open TCP connection to server `127.0.0.1´ on port `${PORT1}´
