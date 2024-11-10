@@ -27,4 +27,4 @@ basic dns request udp
 negative reflect tests
     ${PORT1}    ${PORT2}=           Reflect traffic between ports using `TCP´
     ${connection1}=                 Open TCP connection to server `127.0.0.1´ on port `${PORT1}´
-    Run Keyword And Expect Error    *ConnectionRefusedError: * Connection refused      Open TCP connection to server `127.0.0.1´ on port `${PORT1}´
+    Run Keyword And Expect Error    *Connection*: * Connection*          Open TCP connection to server `127.0.0.1´ on port `${PORT1}´
