@@ -22,7 +22,7 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
                     toAccept = set(initialSockets)
                     conns = []
                     while toAccept and not coms.is_set():
-                        recvAble, _, __ =  select.select(toAccept, [], [], 0)
+                        recvAble, _, __ =  select.select(toAccept, [], [], 1)
                         toAccept = toAccept ^ set(recvAble)
                         conns.extend([s.accept()[0] for s in recvAble])
                         for s in recvAble:
