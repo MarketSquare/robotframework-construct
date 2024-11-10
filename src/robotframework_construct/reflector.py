@@ -72,12 +72,10 @@ class reflector:
         portQ = queue.Queue()
         self._thread = threading.Thread(target=_reflect, daemon=True, args=(protocol, self._please_die, portQ))
         self._thread.start()
-        port1, port2 = portQ.get()
-        self._port1    = port1
-        self._port2    = port2
+        self.port1, self.port2 = portQ.get()
         self._protocol = protocol
-        robot.api.logger.info(f"Reflector started on ports {port1} and {port2} using {protocol}")
-        return (port1, port2,)
+        robot.api.logger.info(f"Reflector started on ports {self.port1} and {self.port2} using {protocol}")
+        return (self.port1, self.port2,)
     
     def shutdown_reflector(self):
         """Terminates this reflector
