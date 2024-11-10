@@ -23,9 +23,10 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
                     while initialSockets and not coms.is_set():
                         recvAble, _, __ =  select.select(initialSockets, [], [], 1)
                         for item in recvAble:
-                            initialSockets.remove(item)
                             conns.append(item.accept()[0])
                             item.close()
+                        for item in recvAble:
+                            initialSockets.remove(item)
 
                     while not coms.is_set():
                         conDict = {conns[0]: conns[1], conns[1]: conns[0]}
