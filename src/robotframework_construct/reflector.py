@@ -15,18 +15,17 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
                 case Protocol.TCP:
                     for s in initialSockets:
                         s.bind(('', 0))
-                        s.listen(1)
-                    
+                        s.listen(0)
+
                     ports = tuple([s.getsockname()[1] for s in initialSockets])
-                    portQ.put(ports)
-                    toAccept = set(initialSockets)
                     conns = []
-                    while toAccept and not coms.is_set():
-                        recvAble, _, __ =  select.select(toAccept, [], [], 1)
-                        toAccept = toAccept ^ set(recvAble)
-                        conns.extend([s.accept()[0] for s in recvAble])
-                        for s in recvAble:
-                            s.close()
+                    portQ.put(ports)
+                    while initialSockets and not coms.is_set():
+                        recvAble, _, __ =  select.select(initialSockets, [], [], 1)
+                        for item in recvAble:
+                            initialSockets.remove(item)
+                            conns.append(item.accept()[0])
+                            item.close()
 
                     while not coms.is_set():
                         conDict = {conns[0]: conns[1], conns[1]: conns[0]}
@@ -37,7 +36,7 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
                 case Protocol.UDP:
                     for s in initialSockets:
                         s.bind(('', 0))
-                    
+
                     ports = tuple([s.getsockname()[1] for s in initialSockets])
                     portQ.put(ports)
                     conDict = {s1: s2, s2: s1}
