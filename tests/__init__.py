@@ -34,6 +34,7 @@ def test_tcp_internals():
     ps = r.reflector(robotframework_construct.Protocol.TCP)
     for p in ps:
         s1, s2 = [socket.socket(socket.AF_INET, socket.SOCK_STREAM) for _ in range(2)]
-        s1.connect(("127.0.0.1", p))
-        s2.connect(("127.0.0.1", p))
+        with pytest.raises(Exception) as excinfo:
+            s1.connect(("127.0.0.1", p))
+            s2.connect(("127.0.0.1", p))
     r.shutdown_reflector()
