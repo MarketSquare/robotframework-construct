@@ -1,10 +1,10 @@
-name: CI
+name: CI_simple
 
 on:
   push:
-    branches: [ main ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ main ]
+    branches: [ '**' ]
 
 jobs:
   run-robot-tests:
