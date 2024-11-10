@@ -22,3 +22,9 @@ def test_impossible_params():
     with pytest.raises(AssertionError) as excinfo:
         robotframework_construct.robotframework_construct().construct_element_should_not_be_equal("a", {"a": [1]}, [1])
     assert "observed value `[1]´ is not distinct to `[1]´ in `{'a': [1]}´ at `a´" == str(excinfo.value)
+
+    with pytest.raises(AssertionError) as excinfo:
+        robotframework_construct.robotframework_construct().open_socket("raw", 0,0)
+    assert "protocol should be either `TCP or `UDP´, but was `raw´" == str(excinfo.value)
+
+
