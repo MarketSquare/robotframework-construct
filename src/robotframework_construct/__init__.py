@@ -10,9 +10,12 @@ import pathlib
 import enum
 
 
+_port_mapping = {}
+
+
 class Protocol(enum.Enum):
-    TCP = enum.auto()
-    UDP = enum.auto()
+    TCP = "TCP"
+    UDP = "UDP"
 
 
 class _construct_interface_basics:
@@ -287,6 +290,7 @@ class robotframework_construct(_construct_interface_basics):
             case Protocol.UDP:
                 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                 s.connect((server, port))
+                _port_mapping[port] = s.getsockname()[1]
                 return s
             case _:
                 assert False, f"protocol should be either `TCP or `UDP´, but was `{protocol}´"
