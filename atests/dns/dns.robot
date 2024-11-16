@@ -26,3 +26,10 @@ Check dns response `${record}´ against hostname `${hostname}´
     END
     Fail    Ip adress not found in dns response
 
+
+Check dns response `${record}´ answer number `${idx}´ ip adress `${ip}´
+    FOR  ${i}    IN RANGE     ${4}
+        Set element seperator to `->´
+        Elemement `answers->${idx}->rdata->${i}´ in `${record}´ should be equal to `${ip}[${i}]´
+        Set element seperator to `.´
+    END
