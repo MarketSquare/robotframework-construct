@@ -27,14 +27,14 @@ jobs:
   
       - name: Run cosmic-ray mutation testing
         run: |
-          uv run cosmic-ray init mutation_basic.toml mutation_basic.sqlite
-          uv run cosmic-ray --verbosity=INFO baseline mutation_basic.toml
-          uv run cosmic-ray exec mutation_basic.toml mutation_basic.sqlite
-          uv run cr-html mutation_basic.sqlite > report2.html
-          uv run cr-report mutation_basic.sqlite
+          uv run cosmic-ray init mutation_testing/mutation_base.toml.toml mutation_testing/mutation_base.toml.sqlite
+          uv run cosmic-ray --verbosity=INFO baseline mutation_testing/mutation_base.toml.toml
+          uv run cosmic-ray exec mutation_testing/mutation_base.toml.toml mutation_testing/mutation_base.toml.sqlite
+          uv run cr-html mutation_testing/mutation_base.toml.sqlite > report_mutations.html
+          uv run cr-report mutation_testing/mutation_base.toml.sqlite
   
       - name: Upload cosmic ray log
         uses: actions/upload-artifact@v3
         with:
           name: cosmic_ray_log
-          path: report2.html
+          path: report_mutations.html

@@ -1,0 +1,8 @@
+[cosmic-ray]
+module-path = "src/robotframework_construct/__init__.py"
+timeout = 7.5
+excluded-modules = []
+test-command = "sh -c 'uv run robot -L TRACE -P atests/bson/ atests/bson && uv run pytest tests/__init__.py'"
+
+[cosmic-ray.distributor]
+name = "local"
