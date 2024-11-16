@@ -15,6 +15,7 @@ basic dns request tcp
     Shutdown Reflector
 
 basic dns request udp
+    [Tags]    mutation_base
     ${PORT1}    ${PORT2}=      Reflect traffic between ports using `UDP´
     ${connection1}=   Open UDP connection to server `127.0.0.1´ on port `${PORT1}´
     ${connection2}=   Open UDP connection to server `127.0.0.1´ on port `${PORT2}´
