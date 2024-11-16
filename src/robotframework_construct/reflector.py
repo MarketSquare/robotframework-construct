@@ -15,13 +15,13 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
                 case Protocol.TCP:
                     for s in initialSockets:
                         s.bind(('', 0))
-                        s.listen(0)
+                        s.listen(0) # pragma: no mutate ## listen sets limit to 0, which triggers false alarm with cosmic-ray
 
                     ports = tuple([s.getsockname()[1] for s in initialSockets])
                     conns = []
                     portQ.put(ports)
                     while initialSockets and not coms.is_set():
-                        recvAble, _, __ =  select.select(initialSockets, [], [], 1)
+                        recvAble, _, __ =  select.select(initialSockets, [], [], 1) # pragma: no mutate ## the exact value of the timeout is irrelevant, which triggers false alamr with cosmic-ray
                         for item in recvAble:
                             conns.append(item.accept()[0])
                             item.close()
@@ -29,9 +29,9 @@ def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> N
 
                     while not coms.is_set():
                         conDict = {conns[0]: conns[1], conns[1]: conns[0]}
-                        recvAble, _, __ =  select.select(conDict.values(), [], [], 1)
+                        recvAble, _, __ =  select.select(conDict.values(), [], [], 1) # pragma: no mutate ## the exact value of the timeout is irrelevant, which triggers false alamr with cosmic-ray
                         for s in recvAble:
-                            conDict[s].send(s.recv(4096))
+                            conDict[s].send(s.recv(4096)) # pragma: no mutate ## the exact value of the buffersize is irrelevant, which triggers false alamr with cosmic-ray
 
                 case Protocol.UDP:
                     for s in initialSockets:
