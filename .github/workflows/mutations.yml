@@ -25,16 +25,24 @@ jobs:
           uv lock
           uv sync --extra test
   
-      - name: Run cosmic-ray mutation testing
+      - name: Run cosmic-ray mutation testing base
         run: |
           uv run cosmic-ray init mutation_testing/mutation_base.toml mutation_testing/mutation_base.toml.sqlite
           uv run cosmic-ray --verbosity=INFO baseline mutation_testing/mutation_base.toml
           uv run cosmic-ray exec mutation_testing/mutation_base.toml mutation_testing/mutation_base.toml.sqlite
-          uv run cr-html mutation_testing/mutation_base.toml.sqlite > report_mutations.html
+          uv run cr-html mutation_testing/mutation_base.toml.sqlite > report_mutations_base.html
           uv run cr-report mutation_testing/mutation_base.toml.sqlite
-  
+      
+      - name: Run cosmic-ray mutation testing reflector
+        run: |
+            uv run cosmic-ray init mutation_testing/mutation_reflector.toml mutation_testing/mutation_reflector.toml.sqlite
+            uv run cosmic-ray --verbosity=INFO reflectorline mutation_testing/mutation_reflector.toml
+            uv run cosmic-ray exec mutation_testing/mutation_reflector.toml mutation_testing/mutation_reflector.toml.sqlite
+            uv run cr-html mutation_testing/mutation_reflector.toml.sqlite > report_mutations_reflector.html
+            uv run cr-report mutation_testing/mutation_reflector.toml.sqlite
+
       - name: Upload cosmic ray log
         uses: actions/upload-artifact@v3
         with:
           name: cosmic_ray_log
-          path: report_mutations.html
+          path: report_mutations*.html

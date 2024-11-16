@@ -1,7 +1,5 @@
 import robotframework_construct
-import robotframework_construct.reflector
 import pytest
-import socket
 
 
 def test_impossible_params():

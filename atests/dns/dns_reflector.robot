@@ -3,6 +3,7 @@ Documentation      This is a simple example for a robot file using robotframewor
 Variables          dns_construct.py
 Library            robotframework_construct
 Library            robotframework_construct.reflector
+Test Tags          mutation_reflector
 *** Test Cases ***
 basic dns request tcp
     ${PORT1}    ${PORT2}=      Reflect traffic between ports using `TCP´
