@@ -4,12 +4,14 @@ Variables          dns_construct.py
 Library            robotframework_construct
 *** Test Cases ***
 basic dns request tcp
+    [Tags]    mutation_base
     ${connection}=   Open TCP connection to server `1.1.1.1´ on port `53´
     Write binary data generated from `${exampleRequestRoboconTcp}´ using construct `${dns_payload_tcp}´ to `${connection}`
     ${record}=       Parse `${connection}´ using construct `${dns_payload_tcp}´
     Check dns response `${record}´ against hostname `robocon.io´
 
 basic dns request udp
+    [Tags]    mutation_base
     ${connection}=   Open UDP connection to server `1.1.1.1´ on port `53´
     Write binary data generated from `${exampleRequestRoboconUdp}´ using construct `${dns_payload_udp}´ to `${connection}`
     ${record}=       Parse `${connection}´ using construct `${dns_payload_udp}´

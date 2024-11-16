@@ -4,6 +4,7 @@ Documentation      This is a simple example for a robot file using robotframewor
 ...                uv run robot -P examples/bson/ examples/bson/simple_bson.robot
 Library            bson            
 Library            robotframework_construct
+Test Tags          mutation_base
 *** Test Cases ***
     
 Simple positive element checks

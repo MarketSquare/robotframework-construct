@@ -2,6 +2,7 @@
 Documentation      These are negative tests used for quality control, barely suitable as examples. 
 Library            bson            
 Library            robotframework_construct
+Test Tags         mutation_base
 *** Test Cases ***
 simple negative tests
     Register construct `document´ from `bson_construct´ as `bson_document´
