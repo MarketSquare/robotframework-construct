@@ -22,6 +22,11 @@ Simple positive element checks
     Elemement `elements.1.value´ in `${returnedDict}´ should be equal to `3´
     Elemement `elements.1.value´ in `${returnedDict}´ should not be equal to `2´
     Elemement `elements.1.value´ in `${returnedDict}´ should not be equal to `4´
+    Set element seperator to `->´
+    Elemement `elements->1->value´ in `${returnedDict}´ should be equal to `3´
+    Elemement `elements->1->value´ in `${returnedDict}´ should not be equal to `2´
+    Elemement `elements->1->value´ in `${returnedDict}´ should not be equal to `4´
+    Set element seperator to `.´
 
 simple positive element checks using a file
     Register construct `document´ from `bson_construct´ as `bson_document´
