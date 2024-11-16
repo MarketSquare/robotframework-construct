@@ -1,0 +1,7 @@
+release checklist
+
+- update docu.:
+
+uv run libdoc --name=robotframework_construct.reflector src/robotframework_construct/reflector.py  docs/robotframework-construct.reflector.html
+uv run libdoc --name=robotframework_construct.regmap src/robotframework_construct/reflector.py  docs/robotframework-construct.regmap.html
+uv run libdoc src/robotframework_construct  docs/robotframework-construct.html
