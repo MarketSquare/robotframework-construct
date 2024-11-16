@@ -41,6 +41,14 @@ jobs:
             uv run cr-html mutation_testing/mutation_reflector.toml.sqlite > report_mutations_reflector.html
             uv run cr-report mutation_testing/mutation_reflector.toml.sqlite
 
+      - name: Run cosmic-ray mutation testing regmap
+        run: |
+            uv run cosmic-ray init mutation_testing/mutation_regmap.toml mutation_testing/mutation_regmap.toml.sqlite
+            uv run cosmic-ray --verbosity=INFO baseline mutation_testing/mutation_regmap.toml
+            uv run cosmic-ray exec mutation_testing/mutation_regmap.toml mutation_testing/mutation_regmap.toml.sqlite
+            uv run cr-html mutation_testing/mutation_regmap.toml.sqlite > report_mutations_regmap.html
+            uv run cr-report mutation_testing/mutation_regmap.toml.sqlite
+
       - name: Upload cosmic ray log
         uses: actions/upload-artifact@v3
         with:
