@@ -73,8 +73,8 @@ Since this project consists primarily of interface code, it is crucial to catch 
 - [x] Receive/transmit network example using DNS.
 - [x] Reflector tool to allow to implement servers using clients.
 - [x] Upload wheel to pypi.
-- [ ] Increase test coverage (Mutant killing) of the reflector
-- [ ] Segmentise mutation testing to speedup
+- [x] Increase test coverage (Mutant killing) of the reflector
+- [x] Segmentise mutation testing to speedup
 - [ ] Add real world example with binary interface to Readme
 - [x] Have libdoc documentation online
 - [ ] Have libdoc documentation online for all keywords, not only the central ones
