@@ -2,6 +2,7 @@
 Documentation      This is a simple example for a robot file using robotframework-construct demonstrating the regmap feature
 Library            robotframework_construct.regmap
 Test Setup         prepare regmaps
+Test Tags          mutation_regmap
 *** Test Cases ***
 negative loading regmaps
     Run Keyword And Expect Error    All elements of the construct regmap need to have an identifiable name    Register regmap `empty_name´ from `math_coprocessor_regmap´ for `dsp1´

@@ -2,7 +2,7 @@
 module-path = "src/robotframework_construct/regmap.py"
 timeout = 7.5
 excluded-modules = []
-test-command = "uv run robot -L TRACE -P atests/regmapmockup/ atests/regmapmockup/"
+test-command = "uv run robot --exitonfailure -P atests/regmapmockup/ atests/regmapmockup/"
 
 [cosmic-ray.distributor]
 name = "local"
