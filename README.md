@@ -78,7 +78,7 @@ Since this project consists primarily of interface code, it is crucial to catch 
 - [ ] Add real world example with binary interface to Readme
 - [x] Have libdoc documentation online
 - [x] Have libdoc documentation online for all keywords, not only the central ones
-- [ ] User guide and tutorials.
+- [ ] User guide and tutorials/Article for (https://medium.com/@RobotFramework/).
 - [x] Example on how to breakout of the python ecosystem
 - [ ] Midway review with Robot Framework Foundation.
 - [ ] Final review with Robot Framework Foundation.
