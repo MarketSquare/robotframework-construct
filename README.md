@@ -79,6 +79,6 @@ Since this project consists primarily of interface code, it is crucial to catch 
 - [x] Have libdoc documentation online
 - [ ] Have libdoc documentation online for all keywords, not only the central ones
 - [ ] User guide and tutorials.
-- [ ] Example on how to breakout of the python ecosystem
+- [x] Example on how to breakout of the python ecosystem
 - [ ] Midway review with Robot Framework Foundation.
 - [ ] Final review with Robot Framework Foundation.
