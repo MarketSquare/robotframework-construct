@@ -1,6 +1,6 @@
 [project]
 name = "robotframework-construct"
-version = "0.1.3"
+version = "0.1.4"
 description = "Infrastructure to use construct Structs in robotframework"
 authors = [
     {name = "Franz Haas", email = "franz.dominik.haas@gmail.com"},
