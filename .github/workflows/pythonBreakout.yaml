@@ -22,5 +22,5 @@ jobs:
 
       - name: breakout to cpp
         run: |
-          uv sync --extra test
+          uv sync --extra breakout --extra test
           uv run xonsh breakout/toCpp/cpp.xsh
