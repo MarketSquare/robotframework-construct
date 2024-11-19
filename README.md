@@ -51,13 +51,21 @@ Both Rammbock and Construct have limited engineering resources, but Construct is
 
 Using Construct provides a clear separation between parsing/generating logic and interface code, enabling expansion into other ecosystems.
 
+## Installation
+
+The robotframework-construct keyword library is hosted on pypi and can be installed like any pypi hosted python dependency with pip.
+
+```
+pip install robotframework-construct
+```
+
 ## Limitations
 
 To maintain reusability, Construct specifications must be written in `.py` files. There are no plans to integrate the Construct DSL into Robot Framework.
 
 ## Quality Control Measures
 
-Examples and acceptance tests using Robot Framework are provided. Unit tests are not a priority.
+Tested examples and acceptance tests using Robot Framework are provided. Unit tests are not a priority.
 
 ### Mutation Testing
 
