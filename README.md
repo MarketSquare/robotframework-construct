@@ -83,7 +83,8 @@ Since this project consists primarily of interface code, it is crucial to catch 
 - [x] Upload wheel to pypi.
 - [x] Increase test coverage (Mutant killing) of the reflector
 - [x] Segmentise mutation testing to speedup
-- [ ] Add real world example with binary interface to Readme
+- [ ] Comment and document the real world example with the USB HID keyboard
+- [ ] Add a second real world example with binary interface to Readme
 - [x] Have libdoc documentation online
 - [x] Have libdoc documentation online for all keywords, not only the central ones
 - [ ] User guide and tutorials/Article for (https://medium.com/@RobotFramework/).
