@@ -50,16 +50,17 @@ class _construct_interface_basics:
             element_chain = element_chain[:-1]
             for item in element_chain:
                 constructDict = self._traverse_construct_for_element(constructDict, locator, original, item)
-            orig = getattr(constructDict, target)
+            orig = constructDict[target]
         except (AttributeError, KeyError):
             assert False, f"could not find `{locator}´ in `{original}´"
         try:
             value = type(orig)(value)
         except ValueError:
             assert False, f"could not convert `{value}´ of type `{type(value)}´ to `{type(orig)}´ of the original value `{orig}´"
-        setattr(constructDict, target, value)
+        constructDict[target] = value
 
     def _traverse_construct_for_element(self, constructDict, locator, original, item):
+        robot.api.logger.info(f"descending to `{item}´ of `{constructDict}´")
         match (item, constructDict,):
             case (str(), dict(),):
                 constructDict = constructDict[item]
