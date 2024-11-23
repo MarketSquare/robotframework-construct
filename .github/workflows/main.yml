@@ -27,7 +27,7 @@ jobs:
 
       - name: Run Robot Framework tests
         run: |
-          uv run robot -L TRACE -P atests/regmapmockup/ -P atests/bson/ atests/
+          uv run robot -L TRACE -e hardware -P atests/regmapmockup/ -P atests/bson/ atests/
           uv run ruff check src
 
       - name: Upload Robot Framework log
