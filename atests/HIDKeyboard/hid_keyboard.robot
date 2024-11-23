@@ -3,6 +3,7 @@ Documentation        This is a simple example for a robot file using robotframew
 Library              robotframework_construct
 Library              Dialogs
 Variables            hid_keyboard.py
+Default Tags         hardware
 *** Variables ***
 ${HID_FILE}           /dev/hidraw0
 *** Test Cases ***
