@@ -5,6 +5,7 @@ import threading
 from robot.api.deco import keyword
 import robot.api.logger
 import queue
+import typing
 
 
 def _reflect(protocol: Protocol, coms: threading.Event, portQ: queue.Queue) -> None:
@@ -58,7 +59,7 @@ class reflector:
         self._protocol = None
 
     @keyword("Reflect traffic between ports using `${protocol}´")
-    def reflector(self, protocol: Protocol) -> None:
+    def reflector(self, protocol: Protocol) -> typing.Tuple[int, int]:
         """Reflects data between two ports.
 
         `port1` is the port to listen to and `port2` is the port to reflect data to.
@@ -70,7 +71,7 @@ class reflector:
         Reflect traffic between ports `9090´ and `9191´ using `TCP´"
         """
         assert self._thread is None, "Reflector is already running"
-        portQ = queue.Queue()
+        portQ: queue.Queue[typing.Tuple[int, int]]  = queue.Queue()
         self._thread = threading.Thread(target=_reflect, daemon=True, args=(protocol, self._please_die, portQ))
         self._thread.start()
         self.port1, self.port2 = portQ.get()

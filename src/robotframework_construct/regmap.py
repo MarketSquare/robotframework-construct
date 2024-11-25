@@ -4,12 +4,13 @@ import importlib
 import construct
 import collections
 from robotframework_construct import _construct_interface_basics
+import typing
 
 
 class _regmap_entry:
     regmap: construct.Construct = None
-    read_reg: callable = None
-    write_reg: callable = None
+    read_reg: typing.Union[None, typing.Callable] = None
+    write_reg: typing.Union[None, typing.Callable] = None
 
 
 class regmap(_construct_interface_basics):
@@ -75,15 +76,15 @@ class regmap(_construct_interface_basics):
         return relevantStruct.parse(regVal)
 
     @keyword('Write register `${reg}` in `${identifier}´ with `${data}´')
-    def write_register(self, reg, identifier: str, data):
+    def write_register(self, reg: typing.Any, identifier: str, data: typing.Union[bytes, dict, construct.Struct]):
         reg, relevantStruct = self._get_subcon(reg, identifier)
         if isinstance(data, bytes):
             dataOut = data
-            robot.api.logger.info(f"""writing: {dataOut} using `{identifier}´ from `{data}´ unmodified""")
+            robot.api.logger.info(f"""writing: {dataOut!r} using `{identifier}´ from `{data!r}´ unmodified""")
         else:
             try:
                 dataOut = relevantStruct.build(data)
             except (construct.core.ConstructError, KeyError, IndexError) as e:
                 assert False, f"could not build data with {relevantStruct} due to {e}"
-            robot.api.logger.info(f"""built: {dataOut} using `{identifier}´ from `{data}´""")
+            robot.api.logger.info(f"""built: {dataOut!r} using `{identifier}´ from `{data!r}´""")
         return self._regmaps[identifier].write_reg(reg, dataOut)

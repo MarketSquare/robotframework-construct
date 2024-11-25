@@ -8,9 +8,12 @@ import robot.api.logger
 import socket
 import pathlib
 import enum
+import typing
 
 
 _port_mapping = {}
+
+_U = typing.TypeVar("_U")
 
 
 class Protocol(enum.Enum):
@@ -22,14 +25,14 @@ class _construct_interface_basics:
     def __init__(self, element_seperator: str =r".") -> None:
         self.set_element_seperator(element_seperator)
 
-    def _convert_to_current_type(self, expectedValue, element):
+    def _convert_to_current_type(self, expectedValue: _U, element: typing.Any) -> _U:
         try:
             expectedValue = type(element)(expectedValue)
         except ValueError:
             assert False, f"could not convert `{expectedValue}´ of type `{type(expectedValue)}´ to `{type(element)}´ of the original value `{element}´"
         return expectedValue
 
-    def _get_element_from_constructDict(self, constructDict, locator):
+    def _get_element_from_constructDict(self, constructDict: typing.Union[dict, construct.Struct], locator: str) -> typing.Union[dict, construct.Struct]:
         assert isinstance(constructDict, dict), f"constructDict should be a dict, but was `{type(constructDict)}´"
         assert isinstance(locator, str), f"locator should be a string, but was `{type(locator)}´"
         original = constructDict
@@ -40,7 +43,7 @@ class _construct_interface_basics:
             assert False, f"could not find `{locator}´ in `{original}´"
         return constructDict
 
-    def _set_element_from_constructDict(self, constructDict, locator, value):
+    def _set_element_from_constructDict(self, constructDict: typing.Union[dict, construct.Struct], locator: str, value) -> None:
         assert isinstance(constructDict, dict), f"constructDict should be a dict, but was `{type(constructDict)}´"
         assert isinstance(locator, str), f"locator should be a string, but was `{type(locator)}´"
         original = constructDict
@@ -51,7 +54,7 @@ class _construct_interface_basics:
             for item in element_chain:
                 constructDict = self._traverse_construct_for_element(constructDict, locator, original, item)
             orig = constructDict[target]
-        except (AttributeError, KeyError):
+        except (IndexError, KeyError):
             assert False, f"could not find `{locator}´ in `{original}´"
         try:
             value = type(orig)(value)
@@ -59,7 +62,7 @@ class _construct_interface_basics:
             assert False, f"could not convert `{value}´ of type `{type(value)}´ to `{type(orig)}´ of the original value `{orig}´"
         constructDict[target] = value
 
-    def _traverse_construct_for_element(self, constructDict, locator, original, item):
+    def _traverse_construct_for_element(self, constructDict: typing.Union[dict, construct.Struct], locator: str, original: typing.Union[dict, construct.Struct], item: str) -> typing.Union[dict, construct.Struct]:
         robot.api.logger.info(f"descending to `{item}´ of `{constructDict}´")
         match (item, constructDict,):
             case (str(), dict(),):
@@ -71,7 +74,7 @@ class _construct_interface_basics:
         return constructDict
 
     @keyword('Set element seperator to `${element_seperator}´')
-    def set_element_seperator(self, element_seperator: str):
+    def set_element_seperator(self, element_seperator: str) -> None:
         """Sets the element seperator to element_seperator.
 
         Arguments:
@@ -82,7 +85,7 @@ class _construct_interface_basics:
         self._split_at_dot_escape_with_dotdot = re.compile(rf'(?<!{element_seperator}){element_seperator}(?!{element_seperator})')
 
     @keyword('Elemement `${locator}´ in `${constructDict}´ should be equal to `${expectedValue}´')
-    def construct_element_should_be_equal(self, locator:str, constructDict, expectedValue):
+    def construct_element_should_be_equal(self, locator:str, constructDict: typing.Union[dict, construct.Struct], expectedValue) -> None:
         """Checks that the element located at locator in construct is equal to expectedValue.
 
         Arguments:
@@ -98,7 +101,7 @@ class _construct_interface_basics:
         assert element == expectedValue, f"observed value `{str(element)}´ does not match expected `{expectedValue}´ in `{str(constructDict)}´ at `{locator}´"
 
     @keyword('Elemement `${locator}´ in `${constructDict}´ should not be equal to `${expectedValue}´')
-    def construct_element_should_not_be_equal(self, locator:str, constructDict, expectedValue):
+    def construct_element_should_not_be_equal(self, locator:str, constructDict: typing.Union[dict, construct.Struct], expectedValue) -> None:
         """Checks that the element located at locator in construct is _not_ equal to expectedValue.
 
         Arguments:
@@ -114,7 +117,7 @@ class _construct_interface_basics:
         assert element != expectedValue, f"observed value `{str(element)}´ is not distinct to `{expectedValue}´ in `{str(constructDict)}´ at `{locator}´"
 
     @keyword('Get elemement `${locator}´ from `${constructDict}´')
-    def get_construct_element(self, locator:str, constructDict:dict):
+    def get_construct_element(self, locator:str, constructDict: typing.Union[dict, construct.Struct]) -> typing.Union[dict, construct.Struct]:
         """Retreives the element located at locator in constructDict.
 
         Arguments:
@@ -127,7 +130,7 @@ class _construct_interface_basics:
         return self._get_element_from_constructDict(constructDict, locator)
 
     @keyword('Modify the elemement located at `${locator}´ of `${constructDict}´ to `${value}´')
-    def set_construct_element(self, locator:str, constructDict:dict, value):
+    def set_construct_element(self, locator:str, constructDict: typing.Union[dict, construct.Struct], value) -> typing.Union[dict, construct.Struct]:
         """Modifies the element located at locator in constructDict to the value value.
 
         Arguments:
@@ -164,7 +167,7 @@ class robotframework_construct(_construct_interface_basics):
         super().__init__()
 
     @keyword('Register construct `${spec}´ from `${library}´ as `${identifier}´')
-    def register_construct(self, spec: str, library: str, identifier: str):
+    def register_construct(self, spec: str, library: str, identifier: str) -> None:
         """Makes a construct available for parsing and generating binary data. This construct 
         may be a regular construct, which is residing in a module, just like regular constructs do.
 
@@ -176,13 +179,13 @@ class robotframework_construct(_construct_interface_basics):
 
         This allows to use a construct from a preexisiting library without any cooperation from this library.
         """
-        library = importlib.import_module(library)
-        spec = getattr(library, spec)
+        lib = importlib.import_module(library)
+        spec = getattr(lib, spec)
         assert isinstance(spec, construct.Construct), f"spec should be a construct.Construct, but was `{type(spec)}´"
         self.constructs[identifier] = spec
 
     @keyword('Parse `${binarydata}´ using construct `${identifier}´')
-    def parse_binary_data_using_construct(self, binarydata: bytes|io.IOBase|socket.socket, identifier: str|construct.Construct):
+    def parse_binary_data_using_construct(self, binarydata: bytes|io.IOBase|socket.socket, identifier: typing.Union[str, construct.Construct]) -> construct.Struct:
         """Parses binary data using a construct. The binary data can be a byte array, a readable binary file object, or a TCP/UDP socket.
 
         Arguments:
@@ -215,7 +218,7 @@ class robotframework_construct(_construct_interface_basics):
         return rVal
 
     @keyword('Generate binary from `${data}´ using construct `${identifier}´')
-    def generate_binary_data_using_construct(self, data: dict, identifier: str|construct.Construct):
+    def generate_binary_data_using_construct(self, data: typing.Union[dict, construct.Struct], identifier: typing.Union[str, construct.Construct]) -> bytes:
         """Generates a bytearray from a dictionary using construct.
 
         Arguments:
@@ -232,7 +235,7 @@ class robotframework_construct(_construct_interface_basics):
         return rVal
 
     @keyword('Write binary data generated from `${data}´ using construct `${identifier}´ to `${file}`')
-    def write_binary_data_using_construct(self, data: dict, identifier: str|construct.Construct, file: io.IOBase):
+    def write_binary_data_using_construct(self, data: dict, identifier: typing.Union[dict, construct.Struct], file: io.IOBase) -> None:
         """Writes binary data to a file or sends it over a socket.
 
         Arguments:
@@ -254,7 +257,7 @@ class robotframework_construct(_construct_interface_basics):
                 file.send(rVal)
 
     @keyword('Open `${filepath}´ for reading binary data')
-    def open_binary_file_to_read(self, filepath: str|pathlib.Path):
+    def open_binary_file_to_read(self, filepath: typing.Union[str, pathlib.Path]) -> io.IOBase:
         """Opens a file filepath for reading binary data.
 
         Arguments:
@@ -264,7 +267,7 @@ class robotframework_construct(_construct_interface_basics):
         return open(filepath, "rb")
 
     @keyword('Open `${filepath}´ for writing binary data')
-    def open_binary_file_to_write(self, filepath: str|pathlib.Path):
+    def open_binary_file_to_write(self, filepath: typing.Union[str, pathlib.Path]) -> io.IOBase:
         """Opens a file filepath for writing binary data.
         
         Arguments:
@@ -274,7 +277,7 @@ class robotframework_construct(_construct_interface_basics):
         return open(filepath, "wb")
 
     @keyword('Open ${protocol} connection to server `${server}´ on port `${port}´')
-    def open_socket(self, protocol: Protocol, server:str, port:int):
+    def open_socket(self, protocol: Protocol, server:str, port:int) -> socket.socket:
         """Opens a connection to the server server on port port using protocol.
 
         Arguments:
