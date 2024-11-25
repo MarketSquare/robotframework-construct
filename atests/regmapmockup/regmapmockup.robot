@@ -44,7 +44,7 @@ Write register with bad data
     Read register `opcode` from `dsp´
     Run Keyword And Expect Error    could not find register*     Read register `cheese` from `dsp´
     Run Keyword And Expect Error    could not find register*     Read register `123` from `dsp´
-    Run Keyword And Expect Error    could not build data with*   Write register `operand1` in `dsp´ with `one´
+    Run Keyword And Expect Error    could not build data with*   Write register `operand1` in `dsp´ with `${{ {"add": 1.12, "sub": 1, "mul": 0, "div": 0} }}´
 
 *** Keywords ***
 prepare regmaps
