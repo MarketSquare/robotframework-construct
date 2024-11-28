@@ -893,7 +893,7 @@ wheels = [
 
 [[package]]
 name = "robotframework-construct"
-version = "0.1.4"
+version = "0.1.5.dev14+g410e46f.d20241128174200"
 source = { editable = "." }
 dependencies = [
     { name = "construct" },
@@ -919,6 +919,7 @@ dev = [
     { name = "radon" },
     { name = "ruamel-yaml" },
     { name = "ruff" },
+    { name = "xonsh" },
 ]
 
 [package.metadata]
@@ -940,6 +941,7 @@ dev = [
     { name = "radon", specifier = ">=6.0.1" },
     { name = "ruamel-yaml", specifier = ">=0.18.6" },
     { name = "ruff", specifier = ">=0.7.2" },
+    { name = "xonsh", specifier = ">=0.18.4" },
 ]
 
 [[package]]
