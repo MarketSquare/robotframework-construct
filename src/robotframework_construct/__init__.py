@@ -37,12 +37,13 @@ class robotframework_construct(regmap, reflector):
         super().__init__()
         self.set_element_seperator(element_seperator)
 
-    def _convert_to_current_type(self, expectedValue: _U, element: typing.Any) -> _U:
+    def _convert_type_to_match_old_value(self, oldValue: _U, newValue: typing.Any) -> _U:
         try:
-            expectedValue = type(element)(expectedValue)
+            if not isinstance(newValue, type(oldValue)):
+                newValue = type(oldValue)(newValue)
         except ValueError:
-            assert False, f"could not convert '{expectedValue}' of type '{type(expectedValue)}' to '{type(element)}' of the original value '{element}'"
-        return expectedValue
+            assert False, f"could not convert '{newValue}' of type '{type(newValue)}' to '{type(oldValue)}' of the original value '{oldValue}'"
+        return newValue
 
     def _get_element_from_constructDict(self, constructDict: typing.Union[dict, construct.Struct], locator: str) -> typing.Union[dict, construct.Struct]:
         assert isinstance(constructDict, dict), f"constructDict should be a dict, but was '{type(constructDict)}'"
@@ -68,10 +69,7 @@ class robotframework_construct(regmap, reflector):
             orig = constructDict[target]
         except (IndexError, KeyError):
             assert False, f"could not find '{locator}' in '{original}'"
-        try:
-            value = type(orig)(value)
-        except ValueError:
-            assert False, f"could not convert '{value}' of type '{type(value)}' to '{type(orig)}' of the original value '{orig}'"
+        value = self._convert_type_to_match_old_value(orig, value)
         constructDict[target] = value
 
     def _traverse_construct_for_element(self, constructDict: typing.Union[dict, construct.Struct], locator: str, original: typing.Union[dict, construct.Struct], item: str) -> typing.Union[dict, construct.Struct]:
@@ -109,7 +107,7 @@ class robotframework_construct(regmap, reflector):
         The locator is a name/index series seperated by the seperator. The seperator can be set with 'Set element seperator to', by default it is ".".
         """
         element = self._get_element_from_constructDict(constructDict, locator)
-        expectedValue = self._convert_to_current_type(expectedValue, element)
+        expectedValue = self._convert_type_to_match_old_value(element, expectedValue)
         assert element == expectedValue, f"observed value '{str(element)}' does not match expected '{expectedValue}' in '{str(constructDict)}' at '{locator}'"
 
     @keyword("Element '${locator}' in '${constructDict}' should not be equal to '${expectedValue}'")
@@ -125,7 +123,7 @@ class robotframework_construct(regmap, reflector):
         The locator is a name/index series seperated by the seperator. The seperator can be set with 'Set element seperator to', by default it is ".".
         """
         element = self._get_element_from_constructDict(constructDict, locator)
-        expectedValue = self._convert_to_current_type(expectedValue, element)
+        expectedValue = self._convert_type_to_match_old_value(element, expectedValue)
         assert element != expectedValue, f"observed value '{str(element)}' is not distinct to '{expectedValue}' in '{str(constructDict)}' at '{locator}'"
 
     @keyword("Get element '${locator}' from '${constructDict}'")
