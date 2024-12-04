@@ -1,6 +1,7 @@
 *** Settings ***
 Documentation      This is a simple example for a robot file using robotframework-construct using nfc/nci as an example using UART.
 Variables          nci.py
+Library            nci_interface
 Library            nci
 Library            robotframework_construct
 Test Teardown      Close NCI Connection
