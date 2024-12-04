@@ -219,7 +219,7 @@ class robotframework_construct(regmap, reflector):
                 rVal = self.constructs[identifier].build(data)
             case construct.Construct():
                 rVal = identifier.build(data)
-        robot.api.logger.info(f"""built: {rVal} using '{identifier}' from '{data}'""")
+        self._log_generated_bytes(identifier, rVal)
         return rVal
 
     @keyword("Write binary data generated from '${data}' using construct '${identifier}' to '${file}'")
@@ -237,12 +237,16 @@ class robotframework_construct(regmap, reflector):
                 rVal = (self.constructs[identifier].build(data))
             case construct.Construct():
                 rVal = identifier.build(data)
-        robot.api.logger.info(f"""built: {rVal} using '{identifier}' from '{data}'""")
+        self._log_generated_bytes(identifier, rVal)
         match file:
             case io.IOBase():
                 file.write(rVal)
             case socket.socket():
                 file.send(rVal)
+
+    def _log_generated_bytes(self, identifier, rVal):
+        hexBuf = " ".join(f"{item:02x}" for item in rVal[:64])
+        robot.api.logger.info(f"""built: {rVal} using '{identifier}' from '{hexBuf}' a total of {len(rVal)} bytes""")
 
     @keyword("Open '${filepath}' for reading binary data")
     def open_binary_file_to_read(self, filepath: typing.Union[str, pathlib.Path]) -> io.IOBase:
