@@ -113,7 +113,7 @@ RF_Discover_Frequency = Enum(Byte,
 
 RF_DISCOVER_CMD_PAYLOAD = Struct("NumInterfaces" / Byte,
                                  "RF_Discover_Map" / Array(this.NumInterfaces, Struct("RF_Technology_and_Mode"  / RF_Technology_and_Mode,
-                                                                                      "RF_Discover_Frequency"   / RF_Discover_Frequency)))
+                                                                                      "RF_Discover_Frequency"   / Int8ub)))
  
 RF_DISCOVER_RSP_STATUS = Enum(Byte,
                               STATUS_OK                          = 0x00,
@@ -281,6 +281,9 @@ NFC_RST_CMD=   {"header": {"MT": MessageType.ControlPacketCommand,
                       "payload": {"ResetType": CORE_RESET_CMD.RESET_CONFIGURATION},
                       "padding": b""}
 
+POLLING_CONFIGURATION = Struct("RF_Technology_and_Mode" / RF_Technology_and_Mode,
+                                "RF_Discover_Frequency" / Int8ub)
+
 NFC_INIT_CMD=   {"header": {"MT": MessageType.ControlPacketCommand,
                                  "PBF": 0, 
                                  "GID": GID.CORE,
@@ -297,8 +300,18 @@ NCI_DISCVER_CMD = {"header": {"MT": MessageType.ControlPacketCommand,
                                   "GID": GID.RF,
                                   "RFU": 0,
                                   "OID": OID_RF_Management.RF_DISCOVER},
-                       "payload_length": 3,
-                       "payload": {"NumInterfaces": 1,
-                                   "RF_Discover_Map": [{"RF_Technology_and_Mode":RF_Technology_and_Mode.NFC_A_ACTIVE_POLL_MODE, 
-                                                        "RF_Discover_Frequency": RF_Discover_Frequency.EVERY_DISCOVERY}]},
-                       "padding": b""}
+                       "payload_length": 13,
+                       "payload": {"NumInterfaces": 6,
+                                   "RF_Discover_Map": [{"RF_Technology_and_Mode":RF_Technology_and_Mode.NFC_A_PASSIVE_POLL_MODE, 
+                                                        "RF_Discover_Frequency": 2},
+                                                        {"RF_Technology_and_Mode":RF_Technology_and_Mode.NFC_B_PASSIVE_POLL_MODE, 
+                                                         "RF_Discover_Frequency": 2},
+                                                        {"RF_Technology_and_Mode":RF_Technology_and_Mode.NFC_F_PASSIVE_POLL_MODE, 
+                                                        "RF_Discover_Frequency": 2},
+                                                        {"RF_Technology_and_Mode":RF_Technology_and_Mode.NFC_15693_PASSIVE_POLL_MODE, 
+                                                        "RF_Discover_Frequency": 2},
+                                                        {"RF_Technology_and_Mode":RF_Technology_and_Mode.NFC_A_PASSIVE_LISTEN_MODE, 
+                                                         "RF_Discover_Frequency": 2},
+                                                        {"RF_Technology_and_Mode":RF_Technology_and_Mode.NFC_F_PASSIVE_LISTEN_MODE, 
+                                                        "RF_Discover_Frequency": 2},
+                                                        ]}}
