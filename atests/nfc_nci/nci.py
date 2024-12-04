@@ -1,5 +1,22 @@
+import serial
+import select
 from construct import Struct, Int8ub, Bytes, BitStruct, BitsInteger, this, Byte, Enum, Switch, Const, Array, Int16ub, If
 
+
+_s = None
+
+def open_nci_connection_via_uart(device: str, baudrate: int):
+    global _s
+    _s = serial.Serial(device, baudrate, timeout=1)
+    return (open(_s.fd, "rb", buffering=0, closefd=False), open(_s.fd, "wb", buffering=0, closefd=False),)
+
+def close_nci_connection():
+    global _s
+    _s.close()
+
+def wait_for_data_from_nci():
+    global _s
+    select.select([_s], [], [], 1)
 
 MessageType = Enum(BitsInteger(3),
     DATA=0,
@@ -74,9 +91,109 @@ CORE_RESET_RSP_STATUS = Enum(Byte,
                       NFCEE_PROTOCOL_ERROR=0xC2,
                       NFCEE_TIMEOUT_ERROR=0xC3) # Table 94
 
+
+RF_Technology_and_Mode = Enum(Byte,
+                              NFC_A_PASSIVE_POLL_MODE        = 0x00,
+                              NFC_B_PASSIVE_POLL_MODE        = 0x01,
+                              NFC_F_PASSIVE_POLL_MODE        = 0x02,
+                              NFC_A_ACTIVE_POLL_MODE         = 0x03,
+                              RFU                            = 0x04,
+                              NFC_F_ACTIVE_POLL_MODE         = 0x05,
+                              NFC_15693_PASSIVE_POLL_MODE    = 0x06,
+                              NFC_A_PASSIVE_LISTEN_MODE      = 0x80,
+                              NFC_B_PASSIVE_LISTEN_MODE      = 0x81,
+                              NFC_F_PASSIVE_LISTEN_MODE      = 0x82,
+                              NFC_A_ACTIVE_LISTEN_MODE       = 0x83,
+                              NFC_F_ACTIVE_LISTEN_MODE       = 0x85,
+                              NFC_15693_PASSIVE_LISTEN_MODE  = 0x86) # Table 96
+
+RF_Discover_Frequency = Enum(Byte,
+                             RFU=0x00,
+                             EVERY_DISCOVERY=0x01)
+
+RF_DISCOVER_CMD_PAYLOAD = Struct("NumInterfaces" / Byte,
+                                 "RF_Discover_Map" / Array(this.NumInterfaces, Struct("RF_Technology_and_Mode"  / RF_Technology_and_Mode,
+                                                                                      "RF_Discover_Frequency"   / RF_Discover_Frequency)))
+ 
+RF_DISCOVER_RSP_STATUS = Enum(Byte,
+                              STATUS_OK                          = 0x00,
+                              STATUS_REJECTED                    = 0x01,
+                              STATUS_RF_FRAME_CORRUPTED          = 0x02,
+                              STATUS_FAILED                      = 0x03,
+                              STATUS_NOT_INITIALIZED             = 0x04,
+                              STATUS_SYNTAX_ERROR                = 0x05,
+                              STATUS_SEMANTIC_ERROR              = 0x06,
+                              STATUS_INVALID_PARAM               = 0x09,
+                              STATUS_MESSAGE_SIZE_EXCEEDED       = 0x0A,
+                              DISCOVERY_ALREADY_STARTED          = 0xA0,
+                              DISCOVERY_TARGET_ACTIVATION_FAILED = 0xA1,
+                              DISCOVERY_TEAR_DOWN                = 0xA2,
+                              RF_TRANSMISSION_ERROR              = 0xB0,
+                              RF_PROTOCOL_ERROR                  = 0xB1,
+                              RF_TIMEOUT_ERROR                   = 0xB2,
+                              NFCEE_INTERFACE_ACTIVATION_FAILED  = 0xC0,
+                              NFCEE_TRANSMISSION_ERROR           = 0xC1,
+                              NFCEE_PROTOCOL_ERROR               = 0xC2,
+                              NFCEE_TIMEOUT_ERROR                = 0xC3)
+
+
+RF_DISCOVER_RSP_PAYLOAD = Struct("Status" / RF_DISCOVER_RSP_STATUS)
+
+RF_DISCOVER_NTF_RF_DISCOVERY_RF_PROTOCOLS = Enum(Byte,
+                                                 PROTOCOL_UNDETERMINED = 0x00,
+                                                 PROTOCOL_T1T          = 0x01,
+                                                 PROTOCOL_T2T          = 0x02,
+                                                 PROTOCOL_T3T          = 0x03,
+                                                 PROTOCOL_ISO_DEP      = 0x04,
+                                                 PROTOCOL_NFC_DEP      = 0x05) # Table 98
+
+RF_DISCOVER_NTF_RF_DISCOVERY_RF_ID = Enum(
+    Int8ub,
+    RFU_0=0,  # RFU (Value 0)
+    RFU_255=255  # RFU (Value 255)
+) # Table 53
+
 CONFIGURATION_STATUS = Enum(Byte,NCI_RF_CONFIGURATION_KEPT=0,NCI_RF_CONFIGURATION_RESET=1) # Table 7
 NCI_VERSION = Enum(Byte,NCI_VERSION_1_0=0x10,NCI_VERSION_2_0=0x20) # Table 6 
 CORE_RESET_NTF_STATUS_REASON_CODE = Enum(Byte, UNSPECIFIED=0x00, CORE_RESET_TRIGGERED=0x01)
+
+NFCParameterStruct = Struct(
+    "SENS_RES_Response" / Bytes(2),  # 2 Octets, Defined in [DIGITAL]
+    
+    "NFCID1_Length" / Enum(
+        Int8ub,
+        NOT_AVAILABLE=0x00,  # If no NFCID1 parameter is available
+        LENGTH_4=0x04,       # Valid length 4 octets
+        LENGTH_7=0x07,       # Valid length 7 octets
+        LENGTH_10=0x0A,      # Valid length 10 octets
+        RFU=0xFF             # Reserved for Future Use
+    ),
+    
+    "NFCID1" / Switch(
+        this.NFCID1_Length,
+        {
+            0x04: Bytes(4),
+            0x07: Bytes(7),
+            0x0A: Bytes(10),
+        },
+        default=None  # If the length is invalid (RFU or unavailable)
+    ),
+
+    "SEL_RES_Response_Length" / Enum(
+        Int8ub,
+        NO_RESPONSE=0x00,  # If no SEL_RES Response is available
+        LENGTH_1=0x01,     # Valid length 1 octet
+        RFU=0xFF           # Reserved for Future Use
+    ),
+    
+    "SEL_RES_Response" / Switch(
+        this.SEL_RES_Response_Length,
+        {
+            0x01: Bytes(1)
+        },
+        default=None  # If the length is invalid (RFU or unavailable)
+    )
+)
 
 NFCC_FEATURES = Struct("Octet_0" / BitStruct("RFU"                            / BitsInteger(5), 
                                              "DiscoverConfigurationmode"      / Enum(BitsInteger(2), 
@@ -102,22 +219,27 @@ RF_INTERFACES = Enum(Byte,
                      NFC_DEP_RF_Interface       = 0x03,) # Table 99
 
 
+CORE_INIT_CMD_PAYLOAD = Struct("ConstValue"       / Const(b"\x00\x00"))
+
 CORE_INIT_RSP_PAYLOAD = Struct("Status"                           / CORE_RESET_RSP_STATUS,
                                "NFCC_Features"                    / NFCC_FEATURES,
-                               "NumInterfaces"                    / Byte,
+                               "NumInterfaces"                    / Int8ub,
                                "SupportedInterfaces"              / Array(this.NumInterfaces, RF_INTERFACES),
                                "Max_Logical_Connections"          / Int8ub,
                                "Max_Routing_Table_Size"           / Int16ub,
                                "Max_Control_Package_Payload_Size" / Int8ub,
-                               "Max_Size_for_Large_Parameters"    / Int8ub)
+                               "Max_Size_for_Large_Parameters"    / Int8ub,
+                               "Manufacture_ID"                   / Int8ub,
+                               "Manufacturer_specific_info"       / Bytes(4))
 
 CORE_RESET_RSP = Struct("Status"               / If(this._.payload_length>=1, CORE_RESET_RSP_STATUS),
-                        "NCI_Version"          / If(this._.payload_length>=2            , NCI_VERSION),
+                        "NCI_Version"          / If(this._.payload_length>=2, NCI_VERSION),
                         "ConfigurationStatus"  / If(this._.payload_length>=3, CONFIGURATION_STATUS),
-                        "padding"              / If(this._.payload_length>3, Bytes(max(0, this._.payload_length-3))))
+                        "padding"              / If(this._.payload_length> 3, Bytes(this._.payload_length-3)))
 
 CORE_RESET_NTF = Struct("Reason"              / CORE_RESET_NTF_STATUS_REASON_CODE,
-                        "ConfigurationStatus" / CONFIGURATION_STATUS)
+                        "ConfigurationStatus" / CONFIGURATION_STATUS,
+                        "padding"              / If(this._.payload_length> 2, Bytes(this._.payload_length-2)))
 
 NCIDataPacket = Struct(
     "header"            / BitStruct(
@@ -140,9 +262,43 @@ NCIControlPacket = Struct(
                          "RFU" / BitsInteger(2),
                          "OID" / Switch(this.GID, {GID.CORE: OID_NCI_Core, GID.RF: OID_RF_Management, GID.NFCEE: OID_NFCEE_Management})),
     "payload_length" / Int8ub,
-    "payload" / Switch((this.header.MT, this.header.GID, this.header.OID,), {(MessageType.ControlPacketCommand,      GID.CORE, OID_NCI_Core.CORE_RESET,):       CORE_RESET_CMD_PAYLOAD,
-                                                                             (MessageType.ControlPacketResponse,     GID.CORE, OID_NCI_Core.CORE_RESET,):       CORE_RESET_RSP,
-                                                                             (MessageType.ControlPacketNotification, GID.CORE, OID_NCI_Core.CORE_RESET,):       CORE_RESET_NTF,
-                                                                             (MessageType.ControlPacketCommand,      GID.CORE, OID_NCI_Core.CORE_INIT,):        Const(b""),
-                                                                             (MessageType.ControlPacketResponse,     GID.CORE, OID_NCI_Core.CORE_INIT,):        CORE_INIT_RSP_PAYLOAD,
-                                                                             }))
+    "payload" / Switch((this.header.MT, this.header.GID, this.header.OID,), {(MessageType.ControlPacketCommand,      GID.CORE, OID_NCI_Core.CORE_RESET,):         CORE_RESET_CMD_PAYLOAD,
+                                                                             (MessageType.ControlPacketResponse,     GID.CORE, OID_NCI_Core.CORE_RESET,):         CORE_RESET_RSP,
+                                                                             (MessageType.ControlPacketNotification, GID.CORE, OID_NCI_Core.CORE_RESET,):         CORE_RESET_NTF,
+                                                                             (MessageType.ControlPacketCommand,      GID.CORE, OID_NCI_Core.CORE_INIT,):          CORE_INIT_CMD_PAYLOAD,
+                                                                             (MessageType.ControlPacketResponse,     GID.CORE, OID_NCI_Core.CORE_INIT,):          CORE_INIT_RSP_PAYLOAD,
+                                                                             (MessageType.ControlPacketCommand,      GID.RF, OID_RF_Management.RF_DISCOVER,):     RF_DISCOVER_CMD_PAYLOAD,
+                                                                             (MessageType.ControlPacketResponse,      GID.RF, OID_RF_Management.RF_DISCOVER,):    RF_DISCOVER_RSP_PAYLOAD,
+                                                                             })).compile()
+
+
+NFC_RST_CMD=   {"header": {"MT": MessageType.ControlPacketCommand,
+                                 "PBF": 0, 
+                                 "GID": GID.CORE,
+                                 "RFU": 0, 
+                                 "OID": OID_NCI_Core.CORE_RESET}, 
+                      "payload_length": 1,
+                      "payload": {"ResetType": CORE_RESET_CMD.RESET_CONFIGURATION},
+                      "padding": b""}
+
+NFC_INIT_CMD=   {"header": {"MT": MessageType.ControlPacketCommand,
+                                 "PBF": 0, 
+                                 "GID": GID.CORE,
+                                 "RFU": 0, 
+                                 "OID": OID_NCI_Core.CORE_INIT}, 
+                      "payload_length": 2,
+                      "payload": {"ConstValue": b"\x00\x00"},
+                      "padding": b""}
+
+
+
+NCI_DISCVER_CMD = {"header": {"MT": MessageType.ControlPacketCommand,
+                                  "PBF": 0,
+                                  "GID": GID.RF,
+                                  "RFU": 0,
+                                  "OID": OID_RF_Management.RF_DISCOVER},
+                       "payload_length": 3,
+                       "payload": {"NumInterfaces": 1,
+                                   "RF_Discover_Map": [{"RF_Technology_and_Mode":RF_Technology_and_Mode.NFC_A_ACTIVE_POLL_MODE, 
+                                                        "RF_Discover_Frequency": RF_Discover_Frequency.EVERY_DISCOVERY}]},
+                       "padding": b""}
