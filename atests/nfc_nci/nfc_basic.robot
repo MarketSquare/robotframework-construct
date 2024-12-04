@@ -9,59 +9,51 @@ ${NCI_INTERFACE}    /dev/serial/by-id/usb-STMicroelectronics_STM32_STLink_066EFF
 ${BAUD_RATE}        115200
 
 *** Test Cases ***
-#Reset NFC Reseting RF configuration
-#    [Documentation]    This test case resets the NFC options using NCI over UART.
-#    ${NCI_READ}    ${NCI_WRITE} =    Open NCI Connection Via UART    ${NCI_INTERFACE}    ${BAUD_RATE}
-#    Modify the element located at 'payload.ResetType' of '${NFC_RST_CMD}' to '${CORE_RESET_CMD.RESET_CONFIGURATION}'
-#    Write Binary Data Generated From '${NFC_RST_CMD}' Using Construct '${NCIControlPacket}' To '${NCI_WRITE}'
-#    Wait For Data From NCI
-#    ${RESET_RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
-#    Element 'header.MT' in '${RESET_RESPONSE}' should be equal to '${MessageType.ControlPacketResponse}'
-#    Wait For Data From NCI
-#    ${RESET_NOTIFICATION}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
-#    Element 'header.MT' in '${RESET_NOTIFICATION}' should be equal to '${MessageType.ControlPacketNotification}'
-#    Element 'payload.ConfigurationStatus' in '${RESET_NOTIFICATION}' should be equal to '${CONFIGURATION_STATUS.NCI_RF_CONFIGURATION_RESET}'
-#
-#Reset NFC keeping RF configuration
-#    [Documentation]    This test case resets the NFC options using NCI over UART.
-#    ${NCI_READ}    ${NCI_WRITE} =    Open NCI Connection Via UART    ${NCI_INTERFACE}    ${BAUD_RATE}
-#    
-#    Modify the element located at 'payload.ResetType' of '${NFC_RST_CMD}' to '${CORE_RESET_CMD.KEEP_CONFIGURATION}'
-#
-#    Write Binary Data Generated From '${NFC_RST_CMD}' Using Construct '${NCIControlPacket}' To '${NCI_WRITE}'
-#    Wait For Data From NCI
-#    ${RESET_RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
-#    Element 'header.MT' in '${RESET_RESPONSE}' should be equal to '${MessageType.ControlPacketResponse}'
-#    Wait For Data From NCI
-#    ${RESET_NOTIFICATION}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
-#    Element 'header.MT' in '${RESET_NOTIFICATION}' should be equal to '${MessageType.ControlPacketNotification}'
-#    Element 'payload.ConfigurationStatus' in '${RESET_NOTIFICATION}' should be equal to '${CONFIGURATION_STATUS.NCI_RF_CONFIGURATION_KEPT}'
+Reset NFC Reseting RF configuration
+    [Documentation]    This test case resets the NFC options using NCI over UART reseting the RF configuration.
+    ${NCI_READ}    ${NCI_WRITE} =    Open NCI Connection Via UART    ${NCI_INTERFACE}    ${BAUD_RATE}
+    Modify the element located at 'payload.ResetType' of '${NFC_RST_CMD}' to '${CORE_RESET_CMD.RESET_CONFIGURATION}'
+    Write Binary Data Generated From '${NFC_RST_CMD}' Using Construct '${NCIControlPacket}' To '${NCI_WRITE}'
+    Expect Response from ${NCI_READ} of type ${MT.ControlPacketResponse}
+    ${RESET_NOTIFICATION}=    Expect Response from ${NCI_READ} of type ${MT.ControlPacketNotification}
+    Element 'payload.ConfigurationStatus' in '${RESET_NOTIFICATION}' should be equal to '${CONFIGURATION_STATUS.NCI_RF_CONFIGURATION_RESET}'
 
+Reset NFC keeping RF configuration
+    [Documentation]    This test case resets the NFC options using NCI over UART keeping the RF configuration.
+    ${NCI_READ}    ${NCI_WRITE} =    Open NCI Connection Via UART    ${NCI_INTERFACE}    ${BAUD_RATE}
+    Modify the element located at 'payload.ResetType' of '${NFC_RST_CMD}' to '${CORE_RESET_CMD.KEEP_CONFIGURATION}'
+    Write Binary Data Generated From '${NFC_RST_CMD}' Using Construct '${NCIControlPacket}' To '${NCI_WRITE}'
+    Expect Response from ${NCI_READ} of type ${MT.ControlPacketResponse}
+    ${RESET_NOTIFICATION}=    Expect Response from ${NCI_READ} of type ${MT.ControlPacketNotification}
+    Element 'payload.ConfigurationStatus' in '${RESET_NOTIFICATION}' should be equal to '${CONFIGURATION_STATUS.NCI_RF_CONFIGURATION_KEPT}'
 
 Actively poll for A cards
     [Documentation]    This test case resets the NFC options using NCI over UART.
-    
     ${NCI_READ}    ${NCI_WRITE} =    Open NCI Connection Via UART    ${NCI_INTERFACE}    ${BAUD_RATE}
-    Log To Console    ${NFC_RST_CMD}
-    Modify the element located at 'payload.ResetType' of '${NFC_RST_CMD}' to '${CORE_RESET_CMD.RESET_CONFIGURATION}'
-    Log To Console    ${NFC_RST_CMD}
     Write Binary Data Generated From '${NFC_RST_CMD}' Using Construct '${NCIControlPacket}' To '${NCI_WRITE}'
-    Wait For Data From NCI
-    Sleep   5
-    ${RESET_RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
-    Wait For Data From NCI
-    ${RESET_RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
-    Sleep    0.5
+    Expect Response from ${NCI_READ} of type ${MT.ControlPacketResponse}
+    Expect Response from ${NCI_READ} of type ${MT.ControlPacketNotification}
     Write Binary Data Generated From '${NFC_INIT_CMD}' Using Construct '${NCIControlPacket}' To '${NCI_WRITE}'
-    Wait For Data From NCI
-    ${RESET_RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
-    Log To Console    ${RESET_RESPONSE}
-
- 
-
-
+    Expect Status OK response from ${NCI_READ}
     Write Binary Data Generated From '${NCI_DISCVER_CMD}' Using Construct '${NCIControlPacket}' To '${NCI_WRITE}'
+    Expect Status OK response from ${NCI_READ}
+    Log to console            please place a card on the reader
+    Wait For Data From NCI    timeout=1
+    ${RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
+
+*** Keywords ***
+Receive message from NCI from ${NCI_READ}
     Wait For Data From NCI
-    ${RESET_RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
-    Log To Console    ${RESET_RESPONSE}
-    Sleep    0.5
+    ${RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
+    RETURN    ${RESPONSE}
+
+Expect Status OK response from ${NCI_READ}
+    ${RESPONSE}=      Receive message from NCI from ${NCI_READ}
+    Element 'payload.Status' in '${RESPONSE}' should be equal to '${GENERIC_STATUS_CODE.STATUS_OK}'
+    RETURN    ${RESPONSE}
+
+Expect Response from ${NCI_READ} of type ${EXPECTED_MT}
+    ${RESPONSE}=     Receive message from NCI from ${NCI_READ}
+    Element 'header.MT' in '${RESPONSE}' should be equal to '${EXPECTED_MT}'
+    RETURN    ${RESPONSE}
+

@@ -34,7 +34,7 @@ def wait_for_data_from_nci(timeout: float = 1.0):
     """
     global _serial_connection
     if _serial_connection and _serial_connection.is_open:
-        select.select([_serial_connection], [], [], timeout)
+        assert select.select([_serial_connection], [], [], timeout)[0], "Timeout while waiting for data from NCI device"
     else:
         raise Exception("NCI connection is not open")
 
@@ -168,8 +168,10 @@ RF_DISCOVER_NTF_RF_DISCOVERY_RF_ID = Enum(
 
 CONFIGURATION_STATUS = Enum(Byte,NCI_RF_CONFIGURATION_KEPT=0,
                                  NCI_RF_CONFIGURATION_RESET=1) # Table 7
+
 NCI_VERSION = Enum(Byte, NCI_VERSION_1_0=0x10,
                          NCI_VERSION_2_0=0x20) # Table 6 
+
 CORE_RESET_NTF_STATUS_REASON_CODE = Enum(Byte, UNSPECIFIED=0x00,
                                                CORE_RESET_TRIGGERED=0x01)
 
