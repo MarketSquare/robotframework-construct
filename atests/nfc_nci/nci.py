@@ -139,6 +139,9 @@ RF_DISCOVER_RSP_STATUS = Enum(Byte,
 
 RF_DISCOVER_RSP_PAYLOAD = Struct("Status" / RF_DISCOVER_RSP_STATUS)
 
+RF_DISCOVER_NTF_PAYLOAD = Struct("NumTargets" / Int8ub,
+                                 "Payload"    / Bytes(this._.payload_length - 1))
+
 RF_DISCOVER_NTF_RF_DISCOVERY_RF_PROTOCOLS = Enum(Byte,
                                                  PROTOCOL_UNDETERMINED = 0x00,
                                                  PROTOCOL_T1T          = 0x01,
@@ -268,7 +271,8 @@ NCIControlPacket = Struct(
                                                                              (MessageType.ControlPacketCommand,      GID.CORE, OID_NCI_Core.CORE_INIT,):          CORE_INIT_CMD_PAYLOAD,
                                                                              (MessageType.ControlPacketResponse,     GID.CORE, OID_NCI_Core.CORE_INIT,):          CORE_INIT_RSP_PAYLOAD,
                                                                              (MessageType.ControlPacketCommand,      GID.RF, OID_RF_Management.RF_DISCOVER,):     RF_DISCOVER_CMD_PAYLOAD,
-                                                                             (MessageType.ControlPacketResponse,      GID.RF, OID_RF_Management.RF_DISCOVER,):    RF_DISCOVER_RSP_PAYLOAD,
+                                                                             (MessageType.ControlPacketResponse,     GID.RF, OID_RF_Management.RF_DISCOVER,):    RF_DISCOVER_RSP_PAYLOAD,
+                                                                             (MessageType.ControlPacketNotification, GID.RF, OID_RF_Management.RF_DISCOVER,):    RF_DISCOVER_NTF_PAYLOAD,
                                                                              })).compile()
 
 

@@ -42,7 +42,9 @@ Actively poll for A cards
     [Documentation]    This test case resets the NFC options using NCI over UART.
     
     ${NCI_READ}    ${NCI_WRITE} =    Open NCI Connection Via UART    ${NCI_INTERFACE}    ${BAUD_RATE}
+    Log To Console    ${NFC_RST_CMD}
     Modify the element located at 'payload.ResetType' of '${NFC_RST_CMD}' to '${CORE_RESET_CMD.RESET_CONFIGURATION}'
+    Log To Console    ${NFC_RST_CMD}
     Write Binary Data Generated From '${NFC_RST_CMD}' Using Construct '${NCIControlPacket}' To '${NCI_WRITE}'
     Wait For Data From NCI
     Sleep   5
