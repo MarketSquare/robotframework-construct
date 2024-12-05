@@ -1,4 +1,5 @@
 import serial
+import time
 import select
 
 
@@ -25,7 +26,12 @@ class nci_interface():
         Raises an exception if the NCI connection is not open.
         """
         if self._serial_connection and self._serial_connection.is_open:
-            assert select.select([self._serial_connection], [], [], timeout)[0], "Timeout while waiting for data from NCI device"
+            endTime = time.time() + timeout
+            while time.time() < endTime:
+                if self._serial_connection.in_waiting:
+                    return
+                time.sleep(0.001)
+            assert self._serial_connection.in_waiting, "Timeout while waiting for data from NCI device"
         else:
             raise Exception("NCI connection is not open")
 
@@ -37,3 +43,4 @@ class nci_interface():
             self._serial_connection.close()
         else:
             raise Exception("NCI connection is not open")
+
