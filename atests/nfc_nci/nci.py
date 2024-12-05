@@ -143,8 +143,20 @@ RF_DISCOVER_CMD_PAYLOAD = Struct("NumInterfaces" / Byte,
                                                                                       "RF_Discover_Frequency"   / Int8ub)))
 RF_DISCOVER_RSP_PAYLOAD = Struct("Status" / GENERIC_STATUS_CODE)
 
+TargetStruct = Struct("RF_Technology_and_Mode" / Int8ub,
+                      "RF_Discover_Frequency" / Int8ub,
+                      "RF_Protocol" / Int8ub,
+                      "RF_Interface" / Int8ub,
+                      "NFCID1_Length" / Int8ub,
+                      "NFCID1" / Switch(this.NFCID1_Length,{ 0x04: Bytes(4),
+                                                             0x07: Bytes(7),
+                                                             0x0A: Bytes(10),}, default=Bytes(0)),
+                      "SENS_RES_Response" / Bytes(2),
+                      "Additional_Information" / Int8ub)
+
+
 RF_DISCOVER_NTF_PAYLOAD = Struct("NumTargets" / Int8ub,
-                                 "Payload"    / Bytes(this._.payload_length - 1))
+                                 "Payload"    / Bytes(this._.payload_length-1),)
 
 NFCParameterStruct = Struct(
     "SENS_RES_Response" / Bytes(2),  # 2 Octets, Defined in [DIGITAL]
@@ -258,6 +270,7 @@ NCI_CONTROL_PACKET = Struct(
                                                                              (MT.ControlPacketResponse,     GID.RF, OID_RF_Management.RF_DISCOVER,):    RF_DISCOVER_RSP_PAYLOAD,
                                                                              (MT.ControlPacketNotification, GID.RF, OID_RF_Management.RF_DISCOVER,):    RF_DISCOVER_NTF_PAYLOAD,
                                                                              })).compile()
+NCI_CONTROL_PACKET.name = "NCI_CONTROL_PACKET"
 
 
 NFC_RST_CMD=   {"header": {"MT": MT.ControlPacketCommand,

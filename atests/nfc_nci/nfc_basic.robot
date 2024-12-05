@@ -41,6 +41,8 @@ Actively poll for A cards
     Log to console            please place a card on the reader
     Wait For Data From NCI    timeout=1
     ${RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
+    Wait For Data From NCI    timeout=1
+    ${RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'    
 
 *** Keywords ***
 Receive message from NCI from ${NCI_READ}
