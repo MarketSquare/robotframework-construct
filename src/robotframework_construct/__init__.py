@@ -12,6 +12,7 @@ import pathlib
 import typing
 from robotframework_construct._regmap import regmap
 from robotframework_construct._reflector import reflector, Protocol, _port_mapping
+from unittest.mock import patch
 
 
 _U = typing.TypeVar("_U")
@@ -194,17 +195,28 @@ class robotframework_construct(regmap, reflector):
             case _:
                 assert False, f"binarydata should be a byte array or a readable binary file object/TCP/UDP socket, but was '{type(binarydata)}'"
 
-        match identifier:
-            case str():
-                try:
-                    rVal = self.constructs[identifier].parse_stream(binarydata)
-                except KeyError:
-                    assert False, f"could not find construct '{identifier}'"
-            case construct.Construct():
-                rVal = identifier.parse_stream(binarydata)
-            case _:
-                assert False, f"identifier should be a string or a construct.Construct, but was '{type(identifier)}'"
-        robot.api.logger.info(f"""parsed: {rVal} using {identifier} from {binarydata}""")
+        __rf_construct_input_bytes = []
+        __read_kept = binarydata.read
+        def read_and_track(*args, **kwargs):
+            rVal = __read_kept(*args, **kwargs)
+            __rf_construct_input_bytes.append(rVal)
+            return rVal
+
+        with patch.object(binarydata, "read", read_and_track):
+            match identifier:
+                case str():
+                    try:
+                        rVal = self.constructs[identifier].parse_stream(binarydata)
+                    except KeyError:
+                        assert False, f"could not find construct '{identifier}'"
+                case construct.Construct():
+                    rVal = identifier.parse_stream(binarydata)
+                case _:
+                    assert False, f"identifier should be a string or a construct.Construct, but was '{type(identifier)}'"
+        
+        parsedRawBytes = b"".join(__rf_construct_input_bytes)
+        hexBuf = " ".join(f"{item:02x}" for item in parsedRawBytes)
+        robot.api.logger.info(f"""parsed: {rVal} using {identifier} from {hexBuf}""")
         return rVal
 
     @keyword("Generate binary from '${data}' using construct '${identifier}'")
