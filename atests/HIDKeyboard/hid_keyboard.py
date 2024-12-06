@@ -69,7 +69,7 @@ HIDReportIn = Struct(
     "reserved" / Byte,  
     "keys" / Array(6, _KeycodeEnum)
 )
-
+HIDReportIn.name = "HIDReportIn"
 
 HIDReportOut = Struct("ReportID" / Byte,
                       "modifiers" / BitStruct(Padding(5),
@@ -79,5 +79,6 @@ HIDReportOut = Struct("ReportID" / Byte,
                                               ),
                       "reserved"  / Array(6, Byte)
 )
+HIDReportOut.name = "HIDReportOut"
 
 HIDReportOutEmpty = {"ReportID": 0, "modifiers": {"SCROLL_LOCK": False, "NUM_LOCK": False, "CAPS_LOCK": False}, "reserved": [0,0,0,0,0,0]}

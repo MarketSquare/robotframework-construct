@@ -42,3 +42,4 @@ document = Struct(
     "elements" / _e_list,
     "EOO" / Const(b"\x00")
 )
+document.name = "bson document"
