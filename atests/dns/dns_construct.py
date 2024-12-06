@@ -48,7 +48,7 @@ dns_payload_tcp = Struct(
         "rdata" / Array(this.rdlength, Int8ub),    # Actual data (e.g., IP address of a nameserver)
     )),
 ).compile()
-
+dns_payload_tcp.name = "dns_payload_tcp"
 
 dns_payload_udp = Struct(
     "transaction_id" / Int16ub,            # Transaction ID (16 bits)
@@ -97,6 +97,8 @@ dns_payload_udp = Struct(
         "rdata" / Array(this.rdlength, Int8ub),    # Actual data (e.g., IP address of a nameserver)
     )),
 ).compile()
+dns_payload_udp.name = "dns_payload_udp"
+
 
 exampleRequestRoboconUdp = {'transaction_id': 26331,
  'flags': dict(qr=False, opcode=0, aa=False, tc=False, rd=True, ra=False, z=2, rcode=0),
