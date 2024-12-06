@@ -1,4 +1,4 @@
-from construct import *
+from construct import Int16ub, BitStruct, Flag, BitsInteger, Int32ub, Int8ub, RepeatUntil, PascalString, Array, CString, Bytes, Struct, this, obj_
 
 dns_payload_tcp = Struct(
     "length" / Int16ub,            # Transaction ID (16 bits)

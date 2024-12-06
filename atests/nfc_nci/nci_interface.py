@@ -1,6 +1,5 @@
 import serial
 import time
-import select
 
 
 class nci_interface():
@@ -22,7 +21,6 @@ class nci_interface():
         """
         Waits for data from the NCI device.
     
-        Uses the select module to wait for data to be available on the serial connection.
         Raises an exception if the NCI connection is not open.
         """
         if self._serial_connection and self._serial_connection.is_open:

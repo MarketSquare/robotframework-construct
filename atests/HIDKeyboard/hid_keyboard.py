@@ -1,4 +1,3 @@
-import os
 from construct import Struct, Byte, Array, BitStruct, Flag, Enum, Padding
 
 
