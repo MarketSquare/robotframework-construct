@@ -2,6 +2,8 @@
 ![Build](https://github.com/MarketSquare/robotframework-construct/actions/workflows/main.yml/badge.svg)
 ![Mutation Testing](https://github.com/MarketSquare/robotframework-construct/actions/workflows/mutations.yml/badge.svg)
 ![Breakout to C++ example](https://github.com/MarketSquare/robotframework-construct/actions/workflows/pythonBreakout.yml/badge.svg)
+![radon maintainabity check](https://github.com/MarketSquare/robotframework-construct/actions/workflows/run_radon.yml/badge.svg)
+![ruff check](https://github.com/MarketSquare/robotframework-construct/actions/workflows/run_ruff.yml/badge.svg)
 
 # robotframework-construct
 
