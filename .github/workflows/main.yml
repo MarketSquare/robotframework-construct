@@ -24,7 +24,7 @@ jobs:
         run: |
           uv tool install xonsh
   
-      - name: Run mutation tests
+      - name: Run basic tests
         run: |
           uvx xonsh tasks/baseQC.xsh
       
