@@ -20,16 +20,14 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Install xonsh
         run: |
-          uv lock
-          uv sync --extra test
-
-      - name: Run Robot Framework tests
+          uv tool install xonsh
+  
+      - name: Run mutation tests
         run: |
-          uv run robot -L TRACE -e hardware -P atests/regmapmockup/ -P atests/bson/ atests/
-          uv run ruff check src
-
+          uvx xonsh tasks/baseQC.xsh
+      
       - name: Upload Robot Framework log
         uses: actions/upload-artifact@v3
         with:
