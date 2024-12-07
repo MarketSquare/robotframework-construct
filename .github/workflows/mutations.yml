@@ -1,8 +1,7 @@
 name: CI_mutation_testing
 
 on:
-  pull_request:
-    branches: [ '**' ]
+  branches: [ 'main' ]
 
 jobs:
   run-robot-tests:
