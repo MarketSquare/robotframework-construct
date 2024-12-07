@@ -213,7 +213,7 @@ class robotframework_construct(regmap, reflector):
                     rVal = identifier.parse_stream(binarydata)
                 case _:
                     assert False, f"identifier should be a string or a construct.Construct, but was '{type(identifier)}'"
-        
+
         parsedRawBytes = b"".join(__rf_construct_input_bytes)
         hexBuf = " ".join(f"{item:02x}" for item in parsedRawBytes)
         robot.api.logger.info(f"""parsed: {rVal} using {identifier} from {hexBuf}""")
@@ -278,17 +278,17 @@ class robotframework_construct(regmap, reflector):
     @keyword("Open '${filepath}' for writing binary data")
     def open_binary_file_to_write(self, filepath: typing.Union[str, pathlib.Path]) -> io.IOBase:
         """Opens a file filepath for writing binary data.
-        
+
         Arguments:
         | =Arguments= | =Description= |
         | filepath    | The path to the file to be opened |
         """
         return open(filepath, "wb")
-    
+
     @keyword("Open '${filepath}' for writing binary data without buffering")
     def open_binary_file_to_write_without_buffering(self, filepath: typing.Union[str, pathlib.Path]) -> io.IOBase:
         """Opens a file filepath for writing binary data.
-        
+
         Arguments:
         | =Arguments= | =Description= |
         | filepath    | The path to the file to be opened |

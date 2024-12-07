@@ -12,12 +12,13 @@ dependencies = [
     "robotframework>=7.1",
     "construct==2.10.69",
 ]
-license = { text = "Apache-2.0" }
+license = "Apache-2.0"
 keywords = ["robotframework"]
 
 [project.urls]
 Documentation = "https://marketsquare.github.io/robotframework-construct"
 Repository = "https://github.com/MarketSquare/robotframework-construct"
+Release_Notes = "https://marketsquare.github.io/robotframework-construct/release_notes.md"
 
 [project.optional-dependencies]
 test = [
@@ -26,6 +27,7 @@ test = [
     "ruff>=0.7.2",
     "pytest>=8.3.3",
 ]
+nci = ["pyserial"]
 breakout = [
     "ruamel_yaml>=0.18.6",
     "xonsh>=0.18.4",

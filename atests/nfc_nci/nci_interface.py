@@ -42,3 +42,9 @@ class nci_interface():
         else:
             raise Exception("NCI connection is not open")
 
+    def nci_connection_receive_buffer_should_be_empty(self):
+        assert 0 == self._serial_connection.in_waiting
+
+    def empty_nci_connection_receive_buffer(self):
+        while self._serial_connection.in_waiting:
+            self._serial_connection.read(self._serial_connection.in_waiting)
