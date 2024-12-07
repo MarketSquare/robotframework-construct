@@ -16,6 +16,8 @@ Setup BSON
 *** Test Cases ***
 simple bson example using a in memory object
     ${returnedDict}=    Parse '${blob}' using construct 'bson_document'
+    ${element}=         Get element 'elements.1.value' from '${returnedDict}'
+    Should Be Equal As Integers    ${element}    1
     Element 'elements.1.value' in '${returnedDict}' should be equal to '1'
     Element 'elements.1.value' in '${returnedDict}' should not be equal to '0'
     Element 'elements.1.value' in '${returnedDict}' should not be equal to '2'
