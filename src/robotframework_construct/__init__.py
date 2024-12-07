@@ -76,7 +76,6 @@ class robotframework_construct(regmap, reflector):
         constructDict[target] = value
 
     def _traverse_construct_for_element(self, constructDict: typing.Union[dict, construct.Struct], locator: str, original: typing.Union[dict, construct.Struct], item: str) -> typing.Union[dict, construct.Struct]:
-        robot.api.logger.info(f"descending to '{item}' of '{constructDict}'")
         match (item, constructDict,):
             case (str(), dict(),):
                 constructDict = constructDict[item]

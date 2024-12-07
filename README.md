@@ -17,6 +17,7 @@ uv sync --extra test --dev
 uv run xonsh tasks/baseQC.xsh 
 ```
 
+There are examples which require hardware to work. [USB HID](./atests/HIDKeyboard/) and [nfc/nci](./atests/nfc_nci/). For the nci example, STm hardware and firmware is required. For the HID example, a USB Keyboard on a linux machine is sufficient.
 
 ## What is robotframework-construct?
 robotframework-construct is a [Robot Framework](https://robotframework.org) keyword library powered by [construct](https://construct.readthedocs.io/en/latest/).
