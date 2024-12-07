@@ -3,32 +3,43 @@
 
 # robotframework-construct
 
+## I am in a hurry, let's jump-start with an example!
+[git](https://github.com/astral-sh/uv) and [uv](https://github.com/astral-sh/uv) need to be preinstalled to run the examples.
+
+```bash
+git clone https://github.com/MarketSquare/robotframework-construct.git
+cd robotframework-construct
+uv tool install xonsh
+uvx xonsh tasks/baseQC.xsh 
+```
+
+
 ## What is robotframework-construct?
+robotframework-construct is a [Robot Framework](https://robotframework.org) keyword library powered by [construct](https://construct.readthedocs.io/en/latest/).
 
-[Robot Framework](https://robotframework.org) library powered by [construct](https://construct.readthedocs.io/en/latest/).
-
-A declarative and symmetrical parser and builder for binary data.
+[construct](https://construct.readthedocs.io/en/latest/) is a declarative and symmetrical parser and builder for binary data.
 
 Aiming for :rocket: speed, :white_check_mark: reliability, and :microscope: visibility.
 
-Ideally, your binary data becomes as accessible as numbers and strings are in Robot Framework.
+Your binary data becomes as accessible as numbers and strings are in Robot Framework.
 
 Checkout the documentation at [robotframework-construct](https://marketsquare.github.io/robotframework-construct/)
+### Licensing
+robotframework-construct is an opensource keyword library licensed under Apache-2.0, leveraging the [construct](https://construct.readthedocs.io/en/latest/) library licensed under MIT.
 
-### Use cases
+## Use cases
 
-- Beautifuly access registers, for both reading and writing.
+- Beautifully access registers, for both reading and writing.
 - Test your production construct specification against a reference implementation of the same protocol.
 - Test your production binary parser/generator against a construct implementation of your binary format.
 - Use your construct declarations to:
   - Craft intentionally corrupted data.
   - Fuzz test your binary parsers.
-
+- While the network is an interesting area for robotframework-construct, other interfaces (UART/SPI/I2C) are considered first-class citizen.
 
 ## Features
 
-
-Checkout the full documentation at [robotframework-construct](https://marketsquare.github.io/robotframework-construct/).
+Check out the full documentation at [robotframework-construct](https://marketsquare.github.io/robotframework-construct/).
 
 ### From construct, declaration not implementation of a parser/generator
 
@@ -75,9 +86,9 @@ document = Struct(
 )
 ```
 
-This can be readily and directly derived from the bson specification [https://bsonspec.org/spec.html]. AI can do that, while it remains easy to supervise the process. This is because the mapping between the specification and the declaration is immediate. Using AI to generate a parser+generator would result in a larger volume of code to be verified, and the verification is harder.
+This can be readily and directly derived from the bson specification [bson specification](https://bsonspec.org/spec.html). AI can help do that, efficiently. This is because the mapping between the specification and the declaration is immediate making it easy to supervise the process and verify the result.
 
-Also, the integration into the framework would remain an open issue.
+Using AI to generate a parser+generator would result in a larger volume of code to be verified, and the verification is harder.
 
 ### Checking and modifying binary data
 There are keywords with embedded parameters allowing checking and modifying binary data in a robotframework way
@@ -117,19 +128,19 @@ The number of dependencies is kept low, with no transient dependencies.
 
 This is important as it keeps coordination feasible. Construct is well-developed and not expected to change significantly soon. Robot Framework releases major updates annually, but these are well-managed and communicated.
 
-### Construct (https://github.com/construct/construct)
+### [Construct](https://github.com/construct/construct)
 
 All parsing and generating capabilities come from Construct. No additional parsing/generating code is added; the only code added interfaces Construct with Robot Framework. The way Construct objects are created remains unchanged.
 
 Construct has no non-optional dependencies.
 
-### Robot Framework (https://robotframework.org/)
+### [Robot Framework](https://robotframework.org/)
 
 This project connects Construct with Robot Framework. Only official APIs are used, and this project depends entirely on Robot Framework.
 
 Robot Framework has no non-optional dependencies.
 
-### Rammbock (https://github.com/MarketSquare/Rammbock)
+### [Rammbock](https://github.com/MarketSquare/Rammbock)
 
 Rammbock inspired this project, as it was one of the reasons I started using Robot Framework.
 
@@ -151,7 +162,9 @@ pip install robotframework-construct
 
 ## Limitations
 
-To maintain reusability, Construct specifications must be written in `.py` files. There are no plans to integrate the Construct DSL into Robot Framework.
+Construct declarations must be written in `.py` files. There are no plans to integrate the Construct DSL into Robot Framework.
+
+This eases the breaking out of the robot-framework and Python ecosystems.
 
 ## Quality Control Measures
 
