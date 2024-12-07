@@ -1,9 +1,11 @@
 # Changelog
 
-## Robotframework_Construct 0.2.4 
+## Robotframework_Construct 0.2.4 (in the works)
 
 ### Features
 
+ - improved test coverage killing all mutants
+ - improved github page, added banners for ruff/radon/mutationtesting/pypireleases/tests/building breakout example
  - improved logging, now the raw hexdump of both the parsed and the generated data is available
  - improved logging, prettier visualization of data
 
