@@ -1,5 +1,7 @@
 ![PyPI](https://img.shields.io/pypi/v/robotframework-construct)
 ![Build](https://github.com/MarketSquare/robotframework-construct/actions/workflows/main.yml/badge.svg)
+![Mutation Testing](https://github.com/MarketSquare/robotframework-construct/actions/workflows/mutations.yml/badge.svg)
+![Breakout to C++ example](https://github.com/MarketSquare/robotframework-construct/actions/workflows/pythonBreakout.yml/badge.svg)
 
 # robotframework-construct
 
