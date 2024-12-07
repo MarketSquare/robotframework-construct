@@ -29,6 +29,7 @@ jobs:
           uvx xonsh tasks/baseQC.xsh
       
       - name: Upload Robot Framework log
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: robot-log

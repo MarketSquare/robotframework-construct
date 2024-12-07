@@ -27,6 +27,7 @@ jobs:
           uvx xonsh tasks/mutationtests.xsh
       
       - name: Upload cosmic ray log
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: cosmic_ray_log
