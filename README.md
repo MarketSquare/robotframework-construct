@@ -13,8 +13,8 @@
 ```bash
 git clone https://github.com/MarketSquare/robotframework-construct.git
 cd robotframework-construct
-uv tool install xonsh
-uvx xonsh tasks/baseQC.xsh 
+uv sync --extra test --dev
+uv run xonsh tasks/baseQC.xsh 
 ```
 
 
