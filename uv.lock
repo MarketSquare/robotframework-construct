@@ -899,7 +899,7 @@ wheels = [
 
 [[package]]
 name = "robotframework-construct"
-version = "0.2.3.post27+gfc91e15.d20241207"
+version = "0.2.0.dev14+gf25bfae.dirty"
 source = { editable = "." }
 dependencies = [
     { name = "construct" },

@@ -33,16 +33,6 @@ breakout = [
     "xonsh>=0.18.4",
 ]
 
-[build-system]
-requires = [
-    "hatchling",
-    "versioningit",
-]
-build-backend = "hatchling.build"
-
-[tool.hatch.version]
-source = "versioningit"
-
 [tool.uv]
 dev-dependencies = [
     "ipython>=8.29.0",
@@ -53,6 +43,15 @@ dev-dependencies = [
     "xonsh>=0.18.4",
 ]
 
-[tool.setuptools_scm]
-version_scheme = "guess-next-dev"
-local_scheme = "node-and-timestamp"
+[tool.hatch.version]
+source = "versioningit"
+default-version = "0.0.0+unknown"
+
+[tool.hatch.version.format]
+distance = "{next_version}.dev{distance}+{vcs}{rev}"
+dirty = "{version}+dirty"
+distance-dirty = "{next_version}.dev{distance}+{vcs}{rev}.dirty"
+
+[build-system]
+requires = ["hatchling", "versioningit"]
+build-backend = "hatchling.build"
