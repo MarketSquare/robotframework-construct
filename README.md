@@ -1,3 +1,6 @@
+![PyPI](https://img.shields.io/pypi/v/robotframework-construct)
+![Build](https://github.com/MarketSquare/robotframework-construct/actions/workflows/main.yml/badge.svg)
+
 # robotframework-construct
 
 ## What is robotframework-construct?
@@ -14,12 +17,99 @@ Checkout the documentation at [robotframework-construct](https://marketsquare.gi
 
 ### Use cases
 
+- Beautifuly access registers, for both reading and writing.
 - Test your production construct specification against a reference implementation of the same protocol.
 - Test your production binary parser/generator against a construct implementation of your binary format.
-- Use your construct specification to:
+- Use your construct declarations to:
   - Craft intentionally corrupted data.
   - Fuzz test your binary parsers.
-- Beautifuly access registers, for both reading and writing.
+
+
+## Features
+
+
+Checkout the full documentation at [robotframework-construct](https://marketsquare.github.io/robotframework-construct/).
+
+### From construct, declaration not implementation of a parser/generator
+
+This is a real-world usable declaration of the bson protocol.
+
+```python
+from construct import Struct, Int8ul, Int32sl, Int64sl, Int64ul, Float64l, Const, Array, Byte, GreedyBytes, CString, Prefixed, Switch, LazyBound, Pass, GreedyRange, Rebuild, this
+
+
+_bson_element = Struct(
+    "type" / Int8ul,
+    "name" / CString("utf8"),
+    "value" / Switch(this.type, {
+         1: Float64l,
+         2: Prefixed(Int32sl, CString("utf8")),
+         3: LazyBound(lambda: document),
+         4: LazyBound(lambda: document),
+         5: Prefixed(Int32sl, GreedyBytes),
+         6: Pass,
+         7: Array(12, Byte),
+         8: Int8ul,
+         9: Int64sl,
+        10: Pass,
+        11: Struct("pattern" / CString("utf8"), "options" / CString("utf8")),
+        12: Struct("namespace" / CString("utf8"), "id" / Array(12, Byte)),
+        13: Prefixed(Int32sl, CString("utf8")),
+        14: Prefixed(Int32sl, CString("utf8")),
+        15: Struct("code" / Prefixed(Int32sl, CString("utf8")), "scope" / LazyBound(lambda: document)),
+        16: Int32sl,
+        17: Int64ul,
+        18: Int64sl,
+        19: Array(16, Byte),
+        -1: Pass,
+        127: Pass,
+    })
+)
+_e_list = GreedyRange(_bson_element)
+def _calc_size(this):
+    return  len(_e_list.build(this["elements"]))+5
+document = Struct(
+    "size" / Rebuild(Int32sl, _calc_size),
+    "elements" / _e_list,
+    "EOO" / Const(b"\x00")
+)
+```
+
+This can be readily and directly derived from the bson specification [https://bsonspec.org/spec.html]. AI can do that, while it remains easy to supervise the process. This is because the mapping between the specification and the declaration is immediate. Using AI to generate a parser+generator would result in a larger volume of code to be verified, and the verification is harder.
+
+Also, the integration into the framework would remain an open issue.
+
+### Checking and modifying binary data
+There are keywords with embedded parameters allowing checking and modifying binary data in a robotframework way
+
+A checking example
+![image](https://github.com/user-attachments/assets/9d01b19d-480a-4393-9cca-1060f3e54712)
+
+and a modifying example
+![image](https://github.com/user-attachments/assets/55de01cf-09b5-4ad7-ab46-02aa718dc8db)
+
+note, that this is very natural in the robotframework environment. If multiple elements need to be checked, this needs to be organized in keywords.
+
+### Observing the binary data
+The binary data built and parsed is easily accessible. This helps with trust issues and makes it easier
+to read digital analyzer outputs or oscilloscope screens. Also, a name to identify what definition is doing the parsing/generating is provided.
+
+A building example.:
+
+![image](https://github.com/user-attachments/assets/9ad060cc-54cd-487e-9cb6-e0798aa53702)
+
+
+A parsing example.:
+
+![image](https://github.com/user-attachments/assets/041852dc-ff40-4ade-9d3c-0999c5057cd1)
+
+### Breaking out of the ecosystems
+The highly valuable building/parsing infrastructure does not depend on robotframework, and in the case of the parsing part, it also does not depend on Python.
+The Structs can be transformed into kaitai. Kaitai is a DSL that can be transformed into parsers in 10+ languages and counting [https://kaitai.io/].
+
+Keep in mind that some limitations apply to these transformations.
+
+For reference.: [./tasks/breakoutCpp.xsh] which creates a C++ parser
 
 ## Relationships in the Ecosystem
 
