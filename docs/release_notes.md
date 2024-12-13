@@ -8,7 +8,8 @@
  - improved github page, added banners for ruff/radon/mutationtesting/pypireleases/tests/building breakout example
  - improved logging, now the raw hexdump of both the parsed and the generated data is available
  - improved logging, prettier visualization of data
-
+ - added additional examples
+ - reorganised github CI to use tasks organised in [xonsh](https://xon.sh/)
 
 ## Robotframework_Construct 0.2.3 (2024-11-19)
 
