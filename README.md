@@ -2,13 +2,13 @@
 ![Build](https://github.com/MarketSquare/robotframework-construct/actions/workflows/main.yml/badge.svg)
 ![Mutation Testing](https://github.com/MarketSquare/robotframework-construct/actions/workflows/mutations.yml/badge.svg)
 ![Breakout to C++ example](https://github.com/MarketSquare/robotframework-construct/actions/workflows/pythonBreakout.yml/badge.svg)
-![radon maintainabity check](https://github.com/MarketSquare/robotframework-construct/actions/workflows/run_radon.yml/badge.svg)
+![radon maintainability check](https://github.com/MarketSquare/robotframework-construct/actions/workflows/run_radon.yml/badge.svg)
 ![ruff check](https://github.com/MarketSquare/robotframework-construct/actions/workflows/run_ruff.yml/badge.svg)
 
 # robotframework-construct
 
 ## I am in a hurry, let's jump-start with an example!
-[git](https://github.com/astral-sh/uv) and [uv](https://github.com/astral-sh/uv) need to be preinstalled to run the examples.
+[git](https://git-scm.com/) (a version control system) and [uv](https://github.com/astral-sh/uv) (a tool for managing Python virtual environments) need to be preinstalled to run the examples.
 
 ```bash
 git clone https://github.com/MarketSquare/robotframework-construct.git
@@ -17,7 +17,7 @@ uv sync --extra test --dev
 uv run xonsh tasks/baseQC.xsh 
 ```
 
-There are examples which require hardware to work. [USB HID](./atests/HIDKeyboard/) and [nfc/nci](./atests/nfc_nci/). For the nci example, STm hardware and firmware is required. For the HID example, a USB Keyboard on a linux machine is sufficient.
+Some examples, such as [USB HID](./atests/HIDKeyboard/) and [nfc/nci](./atests/nfc_nci/), require specific hardware to function. For the nci example, STm hardware and firmware is required. For the HID example, a USB Keyboard on a linux machine is sufficient.
 
 ## What is robotframework-construct?
 robotframework-construct is a [Robot Framework](https://robotframework.org) keyword library powered by [construct](https://construct.readthedocs.io/en/latest/).
@@ -28,7 +28,7 @@ Aiming for :rocket: speed, :white_check_mark: reliability, and :microscope: visi
 
 Your binary data becomes as accessible as numbers and strings are in Robot Framework.
 
-Checkout the documentation at [robotframework-construct](https://marketsquare.github.io/robotframework-construct/)
+Check out the documentation [here](https://marketsquare.github.io/robotframework-construct/)
 ### Licensing
 robotframework-construct is an opensource keyword library licensed under Apache-2.0, leveraging the [construct](https://construct.readthedocs.io/en/latest/) library licensed under MIT.
 
@@ -82,8 +82,11 @@ _bson_element = Struct(
     })
 )
 _e_list = GreedyRange(_bson_element)
+
 def _calc_size(this):
     return  len(_e_list.build(this["elements"]))+5
+
+document = Struct(
 document = Struct(
     "size" / Rebuild(Int32sl, _calc_size),
     "elements" / _e_list,
@@ -91,12 +94,12 @@ document = Struct(
 )
 ```
 
-This can be readily and directly derived from the bson specification [bson specification](https://bsonspec.org/spec.html). AI can help do that, efficiently. This is because the mapping between the specification and the declaration is immediate making it easy to supervise the process and verify the result.
+This can be readily and directly derived from the [bson specification](https://bsonspec.org/spec.html). AI can assist in this process efficiently. This is because the mapping between the specification and the declaration is a very direct and straightforward task, making it easy to supervise the process and verify the result.
 
 Using AI to generate a parser+generator would result in a larger volume of code to be verified, and the verification is harder.
 
 ### Checking and modifying binary data
-There are keywords with embedded parameters allowing checking and modifying binary data in a robotframework way
+There are keywords with embedded parameters that allow checking and modifying binary data in a Robot Framework way
 
 A checking example
 ![image](https://github.com/user-attachments/assets/9d01b19d-480a-4393-9cca-1060f3e54712)
@@ -104,18 +107,16 @@ A checking example
 and a modifying example
 ![image](https://github.com/user-attachments/assets/55de01cf-09b5-4ad7-ab46-02aa718dc8db)
 
-note, that this is very natural in the robotframework environment. If multiple elements need to be checked, this needs to be organized in keywords.
+**Note:** This is very natural in the Robot Framework environment. If multiple elements need to be checked, these checks should be organized in keywords.
 
 ### Observing the binary data
-The binary data built and parsed is easily accessible. This helps with trust issues and makes it easier
-to read digital analyzer outputs or oscilloscope screens. Also, a name to identify what definition is doing the parsing/generating is provided.
+The built and parsed binary data is easily accessible. This helps with trust issues and makes it easier to read digital analyzer or oscilloscope screens. Also, a name to identify what definition is doing the parsing/generating may be provided.
 
-A building example.:
+A building example:
 
 ![image](https://github.com/user-attachments/assets/9ad060cc-54cd-487e-9cb6-e0798aa53702)
 
-
-A parsing example.:
+A parsing example:
 
 ![image](https://github.com/user-attachments/assets/041852dc-ff40-4ade-9d3c-0999c5057cd1)
 
@@ -125,11 +126,11 @@ The Structs can be transformed into kaitai. Kaitai is a DSL that can be transfor
 
 Keep in mind that some limitations apply to these transformations.
 
-For reference.: [./tasks/breakoutCpp.xsh] which creates a C++ parser
+For reference: [./tasks/breakoutCpp.xsh], which is a script that demonstrates how to transform Construct declarations into a C++ parser using the Kaitai DSL.
 
 ## Relationships in the Ecosystem
 
-The number of dependencies is kept low, with no transient dependencies.
+The number of dependencies is kept low, with no transitive dependencies.
 
 This is important as it keeps coordination feasible. Construct is well-developed and not expected to change significantly soon. Robot Framework releases major updates annually, but these are well-managed and communicated.
 
@@ -177,7 +178,7 @@ Tested examples and acceptance tests using Robot Framework are provided. Unit te
 
 ### Mutation Testing
 
-Since this project consists primarily of interface code, it is crucial to catch user errors and produce clear error messages. Mutation testing ensures that all code paths and error messages are tested, supporting efforts to make errors informative.
+Since this project primarily consists of interface code, it is crucial to catch user errors and produce clear error messages. Mutation testing ensures that all code paths and error messages are tested, supporting efforts to make errors informative.
 
 ## Project To-Do List
 
