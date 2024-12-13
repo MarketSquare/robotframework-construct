@@ -36,7 +36,7 @@ simple bson example using a in memory object including modification
     Element 'elements.1.value' in '${returnedDict}' should not be equal to '2'
     Element 'elements.1.value' in '${returnedDict}' should not be equal to '4'
 
-simple bson example changint the seperator 
+simple bson example changint the seperator
     ${returnedDict}=    Parse '${blob}' using construct 'bson_document'
     Set element seperator to '->'
     Element 'elements->1->value' in '${returnedDict}' should be equal to '1'

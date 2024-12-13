@@ -23,7 +23,7 @@ basic dns request udp
     ${record1}=       Parse '${connection2}' using construct '${dns_payload_udp}'
     Write binary data generated from '${exampleRequestRoboconUdp}' using construct '${dns_payload_udp}' to '${connection2}'
     ${record2}=       Parse '${connection1}' using construct '${dns_payload_udp}'
-    
+
 verify that double reflection is not possible with TCP
     ${PORT1}    ${PORT2}=           Reflect traffic between ports using 'TCP'
     ${connection1}=                 Open TCP connection to server '127.0.0.1' on port '${PORT1}'

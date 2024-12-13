@@ -23,11 +23,11 @@ jobs:
       - name: Install xonsh
         run: |
           uv tool install xonsh
-  
+
       - name: Run basic tests
         run: |
           uvx xonsh tasks/baseQC.xsh
-      
+
       - name: Upload Robot Framework log
         if: always()
         uses: actions/upload-artifact@v3

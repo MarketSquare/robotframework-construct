@@ -50,18 +50,9 @@ def test_logging_feature_with_hex_output_Extra_newline(mock_logger):
     assert os.linesep in loggerInput
     assert f'''" from :"{os.linesep}'''
 
-
 def test_logging_feature_with_long_buf(mock_logger):
     rc = robotframework_construct.robotframework_construct()
     binBuf = b"\x01" * 65
     rc._log_generated_bytes(1, binBuf, 1)
     assert "01 "*64 in loggerInput
     assert "01 "*65 not in loggerInput
-
-
-
-    
-
-
-    
-

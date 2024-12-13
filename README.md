@@ -14,7 +14,7 @@
 git clone https://github.com/MarketSquare/robotframework-construct.git
 cd robotframework-construct
 uv sync --extra test --dev
-uv run xonsh tasks/baseQC.xsh 
+uv run xonsh tasks/baseQC.xsh
 ```
 
 Some examples, such as [USB HID](./atests/HIDKeyboard/) and [nfc/nci](./atests/nfc_nci/), require specific hardware to function. For the nci example, STm hardware and firmware is required. For the HID example, a USB Keyboard on a linux machine is sufficient.

@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation        This is a simple example for a robot file using robotframework-construct demonstrating accessing real HW over the USB HID interface.
-...    
-...    This currently only tested on linux
+...
+...                  This currently only tested on linux
 
 Library              robotframework_construct
 Library              Dialogs

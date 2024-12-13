@@ -51,7 +51,7 @@ Actively poll for A cards
     Wait For Data From NCI    timeout=1
     ${RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
     Wait For Data From NCI    timeout=1
-    ${RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'    
+    ${RESPONSE}=     Parse '${NCI_READ}' Using Construct '${NCIControlPacket}'
 
 *** Keywords ***
 Receive message from NCI from ${NCI_READ}

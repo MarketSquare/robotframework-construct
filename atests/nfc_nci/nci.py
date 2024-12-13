@@ -133,7 +133,7 @@ CONFIGURATION_STATUS = Enum(Byte,NCI_RF_CONFIGURATION_KEPT=0,
                                  NCI_RF_CONFIGURATION_RESET=1) # Table 7
 
 NCI_VERSION = Enum(Byte, NCI_VERSION_1_0=0x10,
-                         NCI_VERSION_2_0=0x20) # Table 6 
+                         NCI_VERSION_2_0=0x20) # Table 6
 
 CORE_RESET_NTF_STATUS_REASON_CODE = Enum(Byte, UNSPECIFIED=0x00,
                                                CORE_RESET_TRIGGERED=0x01)
@@ -160,7 +160,7 @@ RF_DISCOVER_NTF_PAYLOAD = Struct("NumTargets" / Int8ub,
 
 NFCParameterStruct = Struct(
     "SENS_RES_Response" / Bytes(2),  # 2 Octets, Defined in [DIGITAL]
-    
+
     "NFCID1_Length" / Enum(
         Int8ub,
         NOT_AVAILABLE=0x00,  # If no NFCID1 parameter is available
@@ -168,7 +168,7 @@ NFCParameterStruct = Struct(
         LENGTH_7=0x07,       # Valid length 7 octets
         LENGTH_10=0x0A,      # Valid length 10 octets
     ),
-    
+
     "NFCID1" / Switch(
         this.NFCID1_Length,
         {
@@ -185,7 +185,7 @@ NFCParameterStruct = Struct(
         LENGTH_1=0x01,     # Valid length 1 octet
         RFU=0xFF           # Reserved for Future Use
     ),
-    
+
     "SEL_RES_Response" / Switch(
         this.SEL_RES_Response_Length,
         {
@@ -195,14 +195,14 @@ NFCParameterStruct = Struct(
     )
 )
 
-NFCC_FEATURES = Struct("Octet_0" / BitStruct("RFU"                            / BitsInteger(5), 
-                                             "DiscoverConfigurationmode"      / Enum(BitsInteger(2), 
+NFCC_FEATURES = Struct("Octet_0" / BitStruct("RFU"                            / BitsInteger(5),
+                                             "DiscoverConfigurationmode"      / Enum(BitsInteger(2),
                                                                                      SINGLDE_DH=0,
                                                                                      MULTI_NFCEEs=1),
                                              "DiscoverFrequencyConfiguration" / Enum(BitsInteger(1),
                                                                                      IGNORED=0,
                                                                                      RF_DISCOVER_CMD_SUPPORTED=1)),
-                       "Octet_1" / BitStruct("RFU"                      / BitsInteger(4), 
+                       "Octet_1" / BitStruct("RFU"                      / BitsInteger(4),
                                              "AID_BASED_ROUTING"        / BitsInteger(1),
                                              "PROTOCOL_BASED_ROUTING"   / BitsInteger(1),
                                              "TECHNOLOGY_BASED_ROUTING" / BitsInteger(1),
@@ -245,7 +245,7 @@ NCI_DATA_PACKET = Struct(
         "MT"            / MT,
         "PBF"           / PBF,
         "ConnID"        / BitsInteger(4),
-        "RFU"           / Byte,  
+        "RFU"           / Byte,
         "PayloadLength" / Byte
     ),
     "payload_length" / Int8ub,
@@ -274,19 +274,19 @@ NCI_CONTROL_PACKET.name = "NCI_CONTROL_PACKET"
 
 
 NFC_RST_CMD=   {"header": {"MT": MT.ControlPacketCommand,
-                                 "PBF": 0, 
+                                 "PBF": 0,
                                  "GID": GID.CORE,
-                                 "RFU": 0, 
-                                 "OID": OID_NCI_Core.CORE_RESET}, 
+                                 "RFU": 0,
+                                 "OID": OID_NCI_Core.CORE_RESET},
                       "payload_length": 1,
                       "payload": {"ResetType": CORE_RESET_CMD.RESET_CONFIGURATION},
                       "padding": b""}
 
 NFC_INIT_CMD=   {"header": {"MT": MT.ControlPacketCommand,
-                                 "PBF": 0, 
+                                 "PBF": 0,
                                  "GID": GID.CORE,
-                                 "RFU": 0, 
-                                 "OID": OID_NCI_Core.CORE_INIT}, 
+                                 "RFU": 0,
+                                 "OID": OID_NCI_Core.CORE_INIT},
                       "payload_length": 2,
                       "payload": {"ConstValue": b"\x00\x00"},
                       "padding": b""}
@@ -300,16 +300,16 @@ NCI_DISCVER_CMD = {"header": {"MT": MT.ControlPacketCommand,
                                   "OID": OID_RF_Management.RF_DISCOVER},
                        "payload_length": 13,
                        "payload": {"NumInterfaces": 6,
-                                   "RF_Discover_Map": [{"RF_Technology_and_Mode":RF_Technology.NFC_A_PASSIVE_POLL_MODE, 
+                                   "RF_Discover_Map": [{"RF_Technology_and_Mode":RF_Technology.NFC_A_PASSIVE_POLL_MODE,
                                                         "RF_Discover_Frequency": 2},
-                                                        {"RF_Technology_and_Mode":RF_Technology.NFC_B_PASSIVE_POLL_MODE, 
+                                                        {"RF_Technology_and_Mode":RF_Technology.NFC_B_PASSIVE_POLL_MODE,
                                                          "RF_Discover_Frequency": 2},
-                                                        {"RF_Technology_and_Mode":RF_Technology.NFC_F_PASSIVE_POLL_MODE, 
+                                                        {"RF_Technology_and_Mode":RF_Technology.NFC_F_PASSIVE_POLL_MODE,
                                                         "RF_Discover_Frequency": 2},
-                                                        {"RF_Technology_and_Mode":RF_Technology.NFC_15693_PASSIVE_POLL_MODE, 
+                                                        {"RF_Technology_and_Mode":RF_Technology.NFC_15693_PASSIVE_POLL_MODE,
                                                         "RF_Discover_Frequency": 2},
-                                                        {"RF_Technology_and_Mode":RF_Technology.NFC_A_PASSIVE_LISTEN_MODE, 
+                                                        {"RF_Technology_and_Mode":RF_Technology.NFC_A_PASSIVE_LISTEN_MODE,
                                                          "RF_Discover_Frequency": 2},
-                                                        {"RF_Technology_and_Mode":RF_Technology.NFC_F_PASSIVE_LISTEN_MODE, 
+                                                        {"RF_Technology_and_Mode":RF_Technology.NFC_F_PASSIVE_LISTEN_MODE,
                                                         "RF_Discover_Frequency": 2},
                                                         ]}}

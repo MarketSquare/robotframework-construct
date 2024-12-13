@@ -14,13 +14,13 @@ class nci_interface():
         """
         self._serial_connection = serial.Serial(device, baudrate, timeout=1)
         self._serial_connection.reset_input_buffer()
-        return (open(self._serial_connection.fd, "rb", buffering=0, closefd=False), 
+        return (open(self._serial_connection.fd, "rb", buffering=0, closefd=False),
                 open(self._serial_connection.fd, "wb", buffering=0, closefd=False),)
-    
+
     def wait_for_data_from_nci(self, timeout: float = 1.0):
         """
         Waits for data from the NCI device.
-    
+
         Raises an exception if the NCI connection is not open.
         """
         if self._serial_connection and self._serial_connection.is_open:

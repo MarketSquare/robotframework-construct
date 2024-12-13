@@ -19,8 +19,7 @@ jobs:
       - name: Install xonsh
         run: |
           uv tool install xonsh
-  
+
       - name: Run ruff
         run: |
           uvx xonsh tasks/run_ruff.xsh
-      
