@@ -17,7 +17,7 @@ uv sync --extra test --dev
 uv run xonsh tasks/baseQC.xsh
 ```
 
-Some examples, such as [USB HID](./atests/HIDKeyboard/) and [nfc/nci](./atests/nfc_nci/), require specific hardware to function. For the nci example, STm hardware and firmware is required. For the HID example, a USB Keyboard on a linux machine is sufficient.
+Some examples, such as [USB HID](./atests/HIDKeyboard/) and [nfc/nci](./atests/nfc_nci/), require specific hardware to function. For the nci example, STm hardware and firmware is required, which can be requested from giuliana.curro@st.com. For the HID example, a USB Keyboard on a linux machine is sufficient.
 
 ## What is robotframework-construct?
 robotframework-construct is a [Robot Framework](https://robotframework.org) keyword library powered by [construct](https://construct.readthedocs.io/en/latest/).
@@ -122,7 +122,7 @@ A parsing example:
 
 ### Breaking out of the ecosystems
 The highly valuable building/parsing infrastructure does not depend on robotframework, and in the case of the parsing part, it also does not depend on Python.
-The Structs can be transformed into kaitai. Kaitai is a DSL that can be transformed into parsers in 10+ languages and counting [https://kaitai.io/].
+The Structs can be transformed into kaitai. Kaitai is a DSL that can be transformed into parsers in 10+ languages and counting, you find further details [here](https://kaitai.io/).
 
 Keep in mind that some limitations apply to these transformations.
 
