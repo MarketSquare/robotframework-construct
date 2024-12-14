@@ -1,5 +1,6 @@
 import serial
 import select
+import io
 import time
 
 
@@ -34,7 +35,7 @@ class nci_interface():
         if self._serial_connection and self._serial_connection.is_open:
             try:
                 select.select([self._serial_connection.fileno()], [], [], timeout)
-            except AttributeError:
+            except io.UnsupportedOperation:
                     # Windows does not support select on serial ports, so we have to do it the hard way
                     endTime = time.time() + timeout
                     while time.time() < endTime and not self._serial_connection.in_waiting:
