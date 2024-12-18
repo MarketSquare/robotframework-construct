@@ -40,7 +40,7 @@ class nfc_interface():
                     endTime = time.time() + timeout
                     while time.time() < endTime and not self._serial_connection.in_waiting:
                         time.sleep(0.001)
-                    assert self._serial_connection.in_waiting, "Timeout while waiting for data from NFC device"
+            assert self._serial_connection.in_waiting, "Timeout while waiting for data from NFC device"
         else:
             raise Exception("NFC connection is not open")
 
