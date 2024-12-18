@@ -28,7 +28,7 @@ test = [
     "pytest>=8.3.3",
     "stdf-tamer[robotframework]>=1.0.44"
 ]
-nci = ["pyserial"]
+nfc = ["pyserial"]
 breakout = [
     "ruamel_yaml>=0.18.6",
     "xonsh>=0.18.4",
