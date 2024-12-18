@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.1.1 (Python 3.13.0 on linux)" generated="2024-12-18T11:38:46.103329" rpa="false" schemaversion="5">
+<robot generator="Robot 7.1.1 (Python 3.13.0 on linux)" generated="2024-12-18T11:50:02.955891" rpa="false" schemaversion="5">
 <suite id="s1" name="Nfc" source="/home/franz/projects/robotframework-construct/atests/nfc">
 <suite id="s1-s1" name="Nfc Basic" source="/home/franz/projects/robotframework-construct/atests/nfc/nfc_basic.robot">
 <test id="s1-s1-t1" name="Reset NFC Reseting RF configuration" line="13">
 <kw name="Open Nfc Connection Via Uart" owner="nfc_interface">
-<msg time="2024-12-18T11:38:46.224058" level="INFO">${NFC_INTERFACE} = timeoutExceptionOnTimeoutSerial&lt;id=0x7b2d54075a50, open=True&gt;(port='/dev/serial/by-id/usb-STMicroelectronics_STM32_STLink_066EFF3031454D3043225321-if02', baudrate=115200, bytesize=8, parity='N', stopb...</msg>
+<msg time="2024-12-18T11:50:03.082289" level="INFO">${NFC_INTERFACE} = timeoutExceptionOnTimeoutSerial&lt;id=0x70c763e02f20, open=True&gt;(port='/dev/serial/by-id/usb-STMicroelectronics_STM32_STLink_066EFF3031454D3043225321-if02', baudrate=115200, bytesize=8, parity='N', stopb...</msg>
 <var>${NFC_INTERFACE}</var>
 <arg>${NFC_INTERFACE}</arg>
 <arg>${BAUD_RATE}</arg>
 <doc>Opens a connection to a NFC device via UART.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.221894" elapsed="0.002316"/>
+<status status="PASS" start="2024-12-18T11:50:03.080258" elapsed="0.002123"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-18T11:38:46.476136" level="INFO">Slept 250 milliseconds.</msg>
+<msg time="2024-12-18T11:50:03.333640" level="INFO">Slept 250 milliseconds.</msg>
 <arg>0.25</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.224941" elapsed="0.251494"/>
+<status status="PASS" start="2024-12-18T11:50:03.082868" elapsed="0.251127"/>
 </kw>
 <kw name="Empty Nfc Connection Receive Buffer" owner="nfc_interface">
 <doc>Empties the receive buffer.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.477143" elapsed="0.000388"/>
+<status status="PASS" start="2024-12-18T11:50:03.334685" elapsed="0.000475"/>
 </kw>
 <kw name="Modify the element located at 'payload.ResetType' of '${NFC_RST_CMD}' to '${CORE_RESET_CMD.RESET_CONFIGURATION}'" owner="robotframework_construct" source_name="Modify the element located at '${locator}' of '${constructDict}' to '${value}'">
 <doc>Modifies the element located at locator in constructDict to the value value.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.478416" elapsed="0.003810"/>
+<status status="PASS" start="2024-12-18T11:50:03.336058" elapsed="0.003413"/>
 </kw>
 <kw name="Write Binary Data Generated From '${NFC_RST_CMD}' Using Construct '${nfcControlPacket}' To '${NFC_INTERFACE}'" owner="robotframework_construct" source_name="Write binary data generated from '${data}' using construct '${identifier}' to '${file}'">
-<msg time="2024-12-18T11:38:46.486245" level="INFO">built: 20 00 01 01 (a total of 4 bytes) using "&lt;Compiled NFC_CONTROL_PACKET&gt;" from :"
+<msg time="2024-12-18T11:50:03.344109" level="INFO">built: 20 00 01 01 (a total of 4 bytes) using "&lt;Compiled NFC_CONTROL_PACKET&gt;" from :"
 {'header': {'GID': EnumIntegerString.new(0, 'CORE'),
             'MT': EnumIntegerString.new(1, 'ControlPacketCommand'),
             'OID': EnumIntegerString.new(0, 'CORE_RESET'),
@@ -36,16 +36,16 @@
  'payload': {'ResetType': EnumIntegerString.new(1, 'RESET_CONFIGURATION')},
  'payload_length': 1}" </msg>
 <doc>Writes binary data to a file or sends it over a socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.483429" elapsed="0.003196"/>
+<status status="PASS" start="2024-12-18T11:50:03.340644" elapsed="0.003857"/>
 </kw>
 <kw name="Expect Response from ${NFC_INTERFACE} of type ${MT.ControlPacketResponse}" source_name="Expect Response from ${nfc_INTERFACE} of type ${EXPECTED_MT}">
 <kw name="Receive message from nfc from ${nfc_INTERFACE}" source_name="Receive message from nfc from ${nfc_INTERFACE}">
 <kw name="Wait For Data From Nfc" owner="nfc_interface">
 <doc>Waits for data from the NFC device.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.492086" elapsed="0.000357"/>
+<status status="PASS" start="2024-12-18T11:50:03.350293" elapsed="0.000380"/>
 </kw>
 <kw name="Parse '${nfc_INTERFACE}' Using Construct '${nfcControlPacket}'" owner="robotframework_construct" source_name="Parse '${binarydata}' using construct '${identifier}'">
-<msg time="2024-12-18T11:38:46.496560" level="INFO">parsed: Container: 
+<msg time="2024-12-18T11:50:03.355664" level="INFO">parsed: Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -58,7 +58,7 @@
         NFC_Version = None
         ConfigurationStatus = None
         padding = None using &lt;Compiled NFC_CONTROL_PACKET&gt; from 40 00 01 00</msg>
-<msg time="2024-12-18T11:38:46.497089" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.356409" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -68,13 +68,13 @@
     p...</msg>
 <var>${RESPONSE}</var>
 <doc>Parses binary data using a construct. The binary data can be a byte array, a readable binary file object, or a TCP/UDP socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.492962" elapsed="0.004201"/>
+<status status="PASS" start="2024-12-18T11:50:03.351238" elapsed="0.005282"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:46.497374" elapsed="0.000130"/>
+<status status="PASS" start="2024-12-18T11:50:03.356752" elapsed="0.000230"/>
 </return>
-<msg time="2024-12-18T11:38:46.498060" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.357733" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -83,26 +83,26 @@
         OID = (enum) CORE_RESET 0
     p...</msg>
 <var>${RESPONSE}</var>
-<status status="PASS" start="2024-12-18T11:38:46.491062" elapsed="0.007081"/>
+<status status="PASS" start="2024-12-18T11:50:03.349234" elapsed="0.008679"/>
 </kw>
 <kw name="Element 'header.MT' in '${RESPONSE}' should be equal to '${EXPECTED_MT}'" owner="robotframework_construct" source_name="Element '${locator}' in '${constructDict}' should be equal to '${expectedValue}'">
 <doc>Checks that the element located at locator in construct is equal to expectedValue.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.499020" elapsed="0.000631"/>
+<status status="PASS" start="2024-12-18T11:50:03.358803" elapsed="0.001316"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:46.499804" elapsed="0.000144"/>
+<status status="PASS" start="2024-12-18T11:50:03.360416" elapsed="0.000197"/>
 </return>
-<status status="PASS" start="2024-12-18T11:38:46.487543" elapsed="0.012692"/>
+<status status="PASS" start="2024-12-18T11:50:03.345545" elapsed="0.015616"/>
 </kw>
 <kw name="Expect Response from ${NFC_INTERFACE} of type ${MT.ControlPacketNotification}" source_name="Expect Response from ${nfc_INTERFACE} of type ${EXPECTED_MT}">
 <kw name="Receive message from nfc from ${nfc_INTERFACE}" source_name="Receive message from nfc from ${nfc_INTERFACE}">
 <kw name="Wait For Data From Nfc" owner="nfc_interface">
 <doc>Waits for data from the NFC device.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.505673" elapsed="0.000410"/>
+<status status="PASS" start="2024-12-18T11:50:03.365487" elapsed="0.000287"/>
 </kw>
 <kw name="Parse '${nfc_INTERFACE}' Using Construct '${nfcControlPacket}'" owner="robotframework_construct" source_name="Parse '${binarydata}' using construct '${identifier}'">
-<msg time="2024-12-18T11:38:46.508173" level="INFO">parsed: Container: 
+<msg time="2024-12-18T11:50:03.367476" level="INFO">parsed: Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -114,7 +114,7 @@
         Reason = (enum) (unknown) 2
         ConfigurationStatus = (enum) NFC_RF_CONFIGURATION_RESET 1
         padding = b' \x02\x04\x00\x02\x00K' (total 7) using &lt;Compiled NFC_CONTROL_PACKET&gt; from 60 00 09 02 01 20 02 04 00 02 00 4b</msg>
-<msg time="2024-12-18T11:38:46.508610" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.367842" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -124,13 +124,13 @@
  ...</msg>
 <var>${RESPONSE}</var>
 <doc>Parses binary data using a construct. The binary data can be a byte array, a readable binary file object, or a TCP/UDP socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.506588" elapsed="0.002101"/>
+<status status="PASS" start="2024-12-18T11:50:03.366217" elapsed="0.001728"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:46.508892" elapsed="0.000101"/>
+<status status="PASS" start="2024-12-18T11:50:03.368096" elapsed="0.000087"/>
 </return>
-<msg time="2024-12-18T11:38:46.509532" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.368643" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -139,17 +139,17 @@
         OID = (enum) CORE_RESET 0
  ...</msg>
 <var>${RESPONSE}</var>
-<status status="PASS" start="2024-12-18T11:38:46.504604" elapsed="0.005006"/>
+<status status="PASS" start="2024-12-18T11:50:03.364724" elapsed="0.003982"/>
 </kw>
 <kw name="Element 'header.MT' in '${RESPONSE}' should be equal to '${EXPECTED_MT}'" owner="robotframework_construct" source_name="Element '${locator}' in '${constructDict}' should be equal to '${expectedValue}'">
 <doc>Checks that the element located at locator in construct is equal to expectedValue.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.510204" elapsed="0.000711"/>
+<status status="PASS" start="2024-12-18T11:50:03.369377" elapsed="0.000937"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:46.511087" elapsed="0.000245"/>
+<status status="PASS" start="2024-12-18T11:50:03.370535" elapsed="0.000289"/>
 </return>
-<msg time="2024-12-18T11:38:46.511989" level="INFO">${RESET_NOTIFICATION} = Container: 
+<msg time="2024-12-18T11:50:03.371665" level="INFO">${RESET_NOTIFICATION} = Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -158,49 +158,49 @@
         OID = (enum) CORE_RESET 0
  ...</msg>
 <var>${RESET_NOTIFICATION}</var>
-<status status="PASS" start="2024-12-18T11:38:46.500917" elapsed="0.011153"/>
+<status status="PASS" start="2024-12-18T11:50:03.362180" elapsed="0.009587"/>
 </kw>
 <kw name="Element 'payload.ConfigurationStatus' in '${RESET_NOTIFICATION}' should be equal to '${CONFIGURATION_STATUS.NFC_RF_CONFIGURATION_RESET}'" owner="robotframework_construct" source_name="Element '${locator}' in '${constructDict}' should be equal to '${expectedValue}'">
 <doc>Checks that the element located at locator in construct is equal to expectedValue.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.512927" elapsed="0.002999"/>
+<status status="PASS" start="2024-12-18T11:50:03.372940" elapsed="0.003030"/>
 </kw>
 <kw name="Nfc Connection Receive Buffer Should Be Empty" owner="nfc_interface">
 <doc>Verifies that the receive buffer is empty.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.516480" elapsed="0.000328"/>
+<status status="PASS" start="2024-12-18T11:50:03.376558" elapsed="0.000418"/>
 </kw>
 <kw name="Close Nfc Connection" owner="nfc_interface" type="TEARDOWN">
 <doc>Closes the NFC connection by closing the serial connection.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.517626" elapsed="0.008461"/>
+<status status="PASS" start="2024-12-18T11:50:03.377809" elapsed="0.007414"/>
 </kw>
 <doc>This test case resets the NFC options using nfc over UART reseting the RF configuration.</doc>
 <tag>hardware</tag>
-<status status="PASS" start="2024-12-18T11:38:46.220063" elapsed="0.306306"/>
+<status status="PASS" start="2024-12-18T11:50:03.078400" elapsed="0.307161"/>
 </test>
 <test id="s1-s1-t2" name="Reset NFC keeping RF configuration" line="25">
 <kw name="Open Nfc Connection Via Uart" owner="nfc_interface">
-<msg time="2024-12-18T11:38:46.530043" level="INFO">${NFC_INTERFACE} = timeoutExceptionOnTimeoutSerial&lt;id=0x7b2d537f38b0, open=True&gt;(port='/dev/serial/by-id/usb-STMicroelectronics_STM32_STLink_066EFF3031454D3043225321-if02', baudrate=115200, bytesize=8, parity='N', stopb...</msg>
+<msg time="2024-12-18T11:50:03.390630" level="INFO">${NFC_INTERFACE} = timeoutExceptionOnTimeoutSerial&lt;id=0x70c763e035e0, open=True&gt;(port='/dev/serial/by-id/usb-STMicroelectronics_STM32_STLink_066EFF3031454D3043225321-if02', baudrate=115200, bytesize=8, parity='N', stopb...</msg>
 <var>${NFC_INTERFACE}</var>
 <arg>${NFC_INTERFACE}</arg>
 <arg>${BAUD_RATE}</arg>
 <doc>Opens a connection to a NFC device via UART.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.528254" elapsed="0.001880"/>
+<status status="PASS" start="2024-12-18T11:50:03.388456" elapsed="0.002350"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-18T11:38:46.781390" level="INFO">Slept 250 milliseconds.</msg>
+<msg time="2024-12-18T11:50:03.642494" level="INFO">Slept 250 milliseconds.</msg>
 <arg>0.25</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.530611" elapsed="0.251053"/>
+<status status="PASS" start="2024-12-18T11:50:03.391725" elapsed="0.251014"/>
 </kw>
 <kw name="Empty Nfc Connection Receive Buffer" owner="nfc_interface">
 <doc>Empties the receive buffer.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.782423" elapsed="0.000385"/>
+<status status="PASS" start="2024-12-18T11:50:03.643461" elapsed="0.000510"/>
 </kw>
 <kw name="Modify the element located at 'payload.ResetType' of '${NFC_RST_CMD}' to '${CORE_RESET_CMD.KEEP_CONFIGURATION}'" owner="robotframework_construct" source_name="Modify the element located at '${locator}' of '${constructDict}' to '${value}'">
 <doc>Modifies the element located at locator in constructDict to the value value.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.783652" elapsed="0.002712"/>
+<status status="PASS" start="2024-12-18T11:50:03.645135" elapsed="0.003212"/>
 </kw>
 <kw name="Write Binary Data Generated From '${NFC_RST_CMD}' Using Construct '${nfcControlPacket}' To '${NFC_INTERFACE}'" owner="robotframework_construct" source_name="Write binary data generated from '${data}' using construct '${identifier}' to '${file}'">
-<msg time="2024-12-18T11:38:46.789527" level="INFO">built: 20 00 01 00 (a total of 4 bytes) using "&lt;Compiled NFC_CONTROL_PACKET&gt;" from :"
+<msg time="2024-12-18T11:50:03.651777" level="INFO">built: 20 00 01 00 (a total of 4 bytes) using "&lt;Compiled NFC_CONTROL_PACKET&gt;" from :"
 {'header': {'GID': EnumIntegerString.new(0, 'CORE'),
             'MT': EnumIntegerString.new(1, 'ControlPacketCommand'),
             'OID': EnumIntegerString.new(0, 'CORE_RESET'),
@@ -210,16 +210,16 @@
  'payload': {'ResetType': EnumIntegerString.new(0, 'KEEP_CONFIGURATION')},
  'payload_length': 1}" </msg>
 <doc>Writes binary data to a file or sends it over a socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.787532" elapsed="0.002618"/>
+<status status="PASS" start="2024-12-18T11:50:03.649401" elapsed="0.002994"/>
 </kw>
 <kw name="Expect Response from ${NFC_INTERFACE} of type ${MT.ControlPacketResponse}" source_name="Expect Response from ${nfc_INTERFACE} of type ${EXPECTED_MT}">
 <kw name="Receive message from nfc from ${nfc_INTERFACE}" source_name="Receive message from nfc from ${nfc_INTERFACE}">
 <kw name="Wait For Data From Nfc" owner="nfc_interface">
 <doc>Waits for data from the NFC device.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.795186" elapsed="0.000346"/>
+<status status="PASS" start="2024-12-18T11:50:03.657732" elapsed="0.000399"/>
 </kw>
 <kw name="Parse '${nfc_INTERFACE}' Using Construct '${nfcControlPacket}'" owner="robotframework_construct" source_name="Parse '${binarydata}' using construct '${identifier}'">
-<msg time="2024-12-18T11:38:46.797510" level="INFO">parsed: Container: 
+<msg time="2024-12-18T11:50:03.660094" level="INFO">parsed: Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -232,7 +232,7 @@
         NFC_Version = None
         ConfigurationStatus = None
         padding = None using &lt;Compiled NFC_CONTROL_PACKET&gt; from 40 00 01 00</msg>
-<msg time="2024-12-18T11:38:46.797985" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.660565" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -242,13 +242,13 @@
     p...</msg>
 <var>${RESPONSE}</var>
 <doc>Parses binary data using a construct. The binary data can be a byte array, a readable binary file object, or a TCP/UDP socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.796103" elapsed="0.001964"/>
+<status status="PASS" start="2024-12-18T11:50:03.658652" elapsed="0.001994"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:46.798245" elapsed="0.000105"/>
+<status status="PASS" start="2024-12-18T11:50:03.660825" elapsed="0.000153"/>
 </return>
-<msg time="2024-12-18T11:38:46.798967" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.661565" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -257,26 +257,26 @@
         OID = (enum) CORE_RESET 0
     p...</msg>
 <var>${RESPONSE}</var>
-<status status="PASS" start="2024-12-18T11:38:46.794224" elapsed="0.004830"/>
+<status status="PASS" start="2024-12-18T11:50:03.656756" elapsed="0.004890"/>
 </kw>
 <kw name="Element 'header.MT' in '${RESPONSE}' should be equal to '${EXPECTED_MT}'" owner="robotframework_construct" source_name="Element '${locator}' in '${constructDict}' should be equal to '${expectedValue}'">
 <doc>Checks that the element located at locator in construct is equal to expectedValue.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.799629" elapsed="0.000758"/>
+<status status="PASS" start="2024-12-18T11:50:03.662401" elapsed="0.000752"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:46.800590" elapsed="0.000111"/>
+<status status="PASS" start="2024-12-18T11:50:03.663328" elapsed="0.000097"/>
 </return>
-<status status="PASS" start="2024-12-18T11:38:46.791125" elapsed="0.010127"/>
+<status status="PASS" start="2024-12-18T11:50:03.653479" elapsed="0.010264"/>
 </kw>
 <kw name="Expect Response from ${NFC_INTERFACE} of type ${MT.ControlPacketNotification}" source_name="Expect Response from ${nfc_INTERFACE} of type ${EXPECTED_MT}">
 <kw name="Receive message from nfc from ${nfc_INTERFACE}" source_name="Receive message from nfc from ${nfc_INTERFACE}">
 <kw name="Wait For Data From Nfc" owner="nfc_interface">
 <doc>Waits for data from the NFC device.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.806725" elapsed="0.000481"/>
+<status status="PASS" start="2024-12-18T11:50:03.669737" elapsed="0.000578"/>
 </kw>
 <kw name="Parse '${nfc_INTERFACE}' Using Construct '${nfcControlPacket}'" owner="robotframework_construct" source_name="Parse '${binarydata}' using construct '${identifier}'">
-<msg time="2024-12-18T11:38:46.809510" level="INFO">parsed: Container: 
+<msg time="2024-12-18T11:50:03.672139" level="INFO">parsed: Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -288,7 +288,7 @@
         Reason = (enum) (unknown) 2
         ConfigurationStatus = (enum) NFC_RF_CONFIGURATION_KEPT 0
         padding = b' \x02\x04\x00\x02\x00K' (total 7) using &lt;Compiled NFC_CONTROL_PACKET&gt; from 60 00 09 02 00 20 02 04 00 02 00 4b</msg>
-<msg time="2024-12-18T11:38:46.809988" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.672553" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -298,13 +298,13 @@
  ...</msg>
 <var>${RESPONSE}</var>
 <doc>Parses binary data using a construct. The binary data can be a byte array, a readable binary file object, or a TCP/UDP socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.807819" elapsed="0.002362"/>
+<status status="PASS" start="2024-12-18T11:50:03.670784" elapsed="0.001935"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:46.810369" elapsed="0.000101"/>
+<status status="PASS" start="2024-12-18T11:50:03.672906" elapsed="0.000097"/>
 </return>
-<msg time="2024-12-18T11:38:46.811094" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.673507" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -313,17 +313,17 @@
         OID = (enum) CORE_RESET 0
  ...</msg>
 <var>${RESPONSE}</var>
-<status status="PASS" start="2024-12-18T11:38:46.805537" elapsed="0.005642"/>
+<status status="PASS" start="2024-12-18T11:50:03.668417" elapsed="0.005157"/>
 </kw>
 <kw name="Element 'header.MT' in '${RESPONSE}' should be equal to '${EXPECTED_MT}'" owner="robotframework_construct" source_name="Element '${locator}' in '${constructDict}' should be equal to '${expectedValue}'">
 <doc>Checks that the element located at locator in construct is equal to expectedValue.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.811759" elapsed="0.000738"/>
+<status status="PASS" start="2024-12-18T11:50:03.674082" elapsed="0.000571"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:46.812655" elapsed="0.000091"/>
+<status status="PASS" start="2024-12-18T11:50:03.674785" elapsed="0.000104"/>
 </return>
-<msg time="2024-12-18T11:38:46.813379" level="INFO">${RESET_NOTIFICATION} = Container: 
+<msg time="2024-12-18T11:50:03.675374" level="INFO">${RESET_NOTIFICATION} = Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -332,45 +332,45 @@
         OID = (enum) CORE_RESET 0
  ...</msg>
 <var>${RESET_NOTIFICATION}</var>
-<status status="PASS" start="2024-12-18T11:38:46.802105" elapsed="0.011357"/>
+<status status="PASS" start="2024-12-18T11:50:03.664509" elapsed="0.010931"/>
 </kw>
 <kw name="Element 'payload.ConfigurationStatus' in '${RESET_NOTIFICATION}' should be equal to '${CONFIGURATION_STATUS.NFC_RF_CONFIGURATION_KEPT}'" owner="robotframework_construct" source_name="Element '${locator}' in '${constructDict}' should be equal to '${expectedValue}'">
 <doc>Checks that the element located at locator in construct is equal to expectedValue.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.814315" elapsed="0.002402"/>
+<status status="PASS" start="2024-12-18T11:50:03.676167" elapsed="0.002224"/>
 </kw>
 <kw name="Nfc Connection Receive Buffer Should Be Empty" owner="nfc_interface">
 <doc>Verifies that the receive buffer is empty.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.817405" elapsed="0.000557"/>
+<status status="PASS" start="2024-12-18T11:50:03.679066" elapsed="0.000339"/>
 </kw>
 <kw name="Close Nfc Connection" owner="nfc_interface" type="TEARDOWN">
 <doc>Closes the NFC connection by closing the serial connection.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.818980" elapsed="0.008881"/>
+<status status="PASS" start="2024-12-18T11:50:03.680384" elapsed="0.012542"/>
 </kw>
 <doc>This test case resets the NFC options using nfc over UART keeping the RF configuration.</doc>
 <tag>hardware</tag>
-<status status="PASS" start="2024-12-18T11:38:46.527099" elapsed="0.301095"/>
+<status status="PASS" start="2024-12-18T11:50:03.386635" elapsed="0.306607"/>
 </test>
 <test id="s1-s1-t3" name="Actively poll for A cards" line="37">
 <kw name="Open Nfc Connection Via Uart" owner="nfc_interface">
-<msg time="2024-12-18T11:38:46.832340" level="INFO">${NFC_INTERFACE} = timeoutExceptionOnTimeoutSerial&lt;id=0x7b2d53845870, open=True&gt;(port='/dev/serial/by-id/usb-STMicroelectronics_STM32_STLink_066EFF3031454D3043225321-if02', baudrate=115200, bytesize=8, parity='N', stopb...</msg>
+<msg time="2024-12-18T11:50:03.697618" level="INFO">${NFC_INTERFACE} = timeoutExceptionOnTimeoutSerial&lt;id=0x70c763e55ba0, open=True&gt;(port='/dev/serial/by-id/usb-STMicroelectronics_STM32_STLink_066EFF3031454D3043225321-if02', baudrate=115200, bytesize=8, parity='N', stopb...</msg>
 <var>${NFC_INTERFACE}</var>
 <arg>${NFC_INTERFACE}</arg>
 <arg>${BAUD_RATE}</arg>
 <doc>Opens a connection to a NFC device via UART.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.830376" elapsed="0.002096"/>
+<status status="PASS" start="2024-12-18T11:50:03.695444" elapsed="0.002336"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2024-12-18T11:38:47.083717" level="INFO">Slept 250 milliseconds.</msg>
+<msg time="2024-12-18T11:50:03.949769" level="INFO">Slept 250 milliseconds.</msg>
 <arg>0.25</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.833045" elapsed="0.251013"/>
+<status status="PASS" start="2024-12-18T11:50:03.698665" elapsed="0.251418"/>
 </kw>
 <kw name="Empty Nfc Connection Receive Buffer" owner="nfc_interface">
 <doc>Empties the receive buffer.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.084809" elapsed="0.000489"/>
+<status status="PASS" start="2024-12-18T11:50:03.950780" elapsed="0.000480"/>
 </kw>
 <kw name="Write Binary Data Generated From '${NFC_RST_CMD}' Using Construct '${nfcControlPacket}' To '${NFC_INTERFACE}'" owner="robotframework_construct" source_name="Write binary data generated from '${data}' using construct '${identifier}' to '${file}'">
-<msg time="2024-12-18T11:38:47.088363" level="INFO">built: 20 00 01 00 (a total of 4 bytes) using "&lt;Compiled NFC_CONTROL_PACKET&gt;" from :"
+<msg time="2024-12-18T11:50:03.954323" level="INFO">built: 20 00 01 00 (a total of 4 bytes) using "&lt;Compiled NFC_CONTROL_PACKET&gt;" from :"
 {'header': {'GID': EnumIntegerString.new(0, 'CORE'),
             'MT': EnumIntegerString.new(1, 'ControlPacketCommand'),
             'OID': EnumIntegerString.new(0, 'CORE_RESET'),
@@ -380,16 +380,16 @@
  'payload': {'ResetType': EnumIntegerString.new(0, 'KEEP_CONFIGURATION')},
  'payload_length': 1}" </msg>
 <doc>Writes binary data to a file or sends it over a socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.086256" elapsed="0.002712"/>
+<status status="PASS" start="2024-12-18T11:50:03.952219" elapsed="0.002606"/>
 </kw>
 <kw name="Expect Response from ${NFC_INTERFACE} of type ${MT.ControlPacketResponse}" source_name="Expect Response from ${nfc_INTERFACE} of type ${EXPECTED_MT}">
 <kw name="Receive message from nfc from ${nfc_INTERFACE}" source_name="Receive message from nfc from ${nfc_INTERFACE}">
 <kw name="Wait For Data From Nfc" owner="nfc_interface">
 <doc>Waits for data from the NFC device.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.095040" elapsed="0.000408"/>
+<status status="PASS" start="2024-12-18T11:50:03.960687" elapsed="0.000451"/>
 </kw>
 <kw name="Parse '${nfc_INTERFACE}' Using Construct '${nfcControlPacket}'" owner="robotframework_construct" source_name="Parse '${binarydata}' using construct '${identifier}'">
-<msg time="2024-12-18T11:38:47.097471" level="INFO">parsed: Container: 
+<msg time="2024-12-18T11:50:03.963187" level="INFO">parsed: Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -402,7 +402,7 @@
         NFC_Version = None
         ConfigurationStatus = None
         padding = None using &lt;Compiled NFC_CONTROL_PACKET&gt; from 40 00 01 00</msg>
-<msg time="2024-12-18T11:38:47.097979" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.963646" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -412,13 +412,13 @@
     p...</msg>
 <var>${RESPONSE}</var>
 <doc>Parses binary data using a construct. The binary data can be a byte array, a readable binary file object, or a TCP/UDP socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.096042" elapsed="0.002023"/>
+<status status="PASS" start="2024-12-18T11:50:03.961655" elapsed="0.002074"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:47.098248" elapsed="0.000113"/>
+<status status="PASS" start="2024-12-18T11:50:03.963929" elapsed="0.000104"/>
 </return>
-<msg time="2024-12-18T11:38:47.098960" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.964601" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -427,26 +427,26 @@
         OID = (enum) CORE_RESET 0
     p...</msg>
 <var>${RESPONSE}</var>
-<status status="PASS" start="2024-12-18T11:38:47.094085" elapsed="0.004958"/>
+<status status="PASS" start="2024-12-18T11:50:03.959708" elapsed="0.004973"/>
 </kw>
 <kw name="Element 'header.MT' in '${RESPONSE}' should be equal to '${EXPECTED_MT}'" owner="robotframework_construct" source_name="Element '${locator}' in '${constructDict}' should be equal to '${expectedValue}'">
 <doc>Checks that the element located at locator in construct is equal to expectedValue.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.099742" elapsed="0.000816"/>
+<status status="PASS" start="2024-12-18T11:50:03.965369" elapsed="0.000724"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:47.100749" elapsed="0.000125"/>
+<status status="PASS" start="2024-12-18T11:50:03.966258" elapsed="0.000093"/>
 </return>
-<status status="PASS" start="2024-12-18T11:38:47.090240" elapsed="0.011046"/>
+<status status="PASS" start="2024-12-18T11:50:03.955679" elapsed="0.010987"/>
 </kw>
 <kw name="Expect Response from ${NFC_INTERFACE} of type ${MT.ControlPacketNotification}" source_name="Expect Response from ${nfc_INTERFACE} of type ${EXPECTED_MT}">
 <kw name="Receive message from nfc from ${nfc_INTERFACE}" source_name="Receive message from nfc from ${nfc_INTERFACE}">
 <kw name="Wait For Data From Nfc" owner="nfc_interface">
 <doc>Waits for data from the NFC device.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.106476" elapsed="0.000512"/>
+<status status="PASS" start="2024-12-18T11:50:03.972396" elapsed="0.000499"/>
 </kw>
 <kw name="Parse '${nfc_INTERFACE}' Using Construct '${nfcControlPacket}'" owner="robotframework_construct" source_name="Parse '${binarydata}' using construct '${identifier}'">
-<msg time="2024-12-18T11:38:47.109769" level="INFO">parsed: Container: 
+<msg time="2024-12-18T11:50:03.975930" level="INFO">parsed: Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -458,7 +458,7 @@
         Reason = (enum) (unknown) 2
         ConfigurationStatus = (enum) NFC_RF_CONFIGURATION_KEPT 0
         padding = b' \x02\x04\x00\x02\x00K' (total 7) using &lt;Compiled NFC_CONTROL_PACKET&gt; from 60 00 09 02 00 20 02 04 00 02 00 4b</msg>
-<msg time="2024-12-18T11:38:47.110530" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.976757" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -468,13 +468,13 @@
  ...</msg>
 <var>${RESPONSE}</var>
 <doc>Parses binary data using a construct. The binary data can be a byte array, a readable binary file object, or a TCP/UDP socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.107817" elapsed="0.002784"/>
+<status status="PASS" start="2024-12-18T11:50:03.973819" elapsed="0.003054"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:47.110750" elapsed="0.000091"/>
+<status status="PASS" start="2024-12-18T11:50:03.977099" elapsed="0.000109"/>
 </return>
-<msg time="2024-12-18T11:38:47.111413" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.977690" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -483,20 +483,20 @@
         OID = (enum) CORE_RESET 0
  ...</msg>
 <var>${RESPONSE}</var>
-<status status="PASS" start="2024-12-18T11:38:47.105306" elapsed="0.006171"/>
+<status status="PASS" start="2024-12-18T11:50:03.971053" elapsed="0.006702"/>
 </kw>
 <kw name="Element 'header.MT' in '${RESPONSE}' should be equal to '${EXPECTED_MT}'" owner="robotframework_construct" source_name="Element '${locator}' in '${constructDict}' should be equal to '${expectedValue}'">
 <doc>Checks that the element located at locator in construct is equal to expectedValue.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.112048" elapsed="0.000613"/>
+<status status="PASS" start="2024-12-18T11:50:03.978307" elapsed="0.000687"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:47.112803" elapsed="0.000143"/>
+<status status="PASS" start="2024-12-18T11:50:03.979135" elapsed="0.000085"/>
 </return>
-<status status="PASS" start="2024-12-18T11:38:47.102013" elapsed="0.011220"/>
+<status status="PASS" start="2024-12-18T11:50:03.967418" elapsed="0.012063"/>
 </kw>
 <kw name="Write Binary Data Generated From '${NFC_INIT_CMD}' Using Construct '${nfcControlPacket}' To '${NFC_INTERFACE}'" owner="robotframework_construct" source_name="Write binary data generated from '${data}' using construct '${identifier}' to '${file}'">
-<msg time="2024-12-18T11:38:47.115163" level="INFO">built: 20 01 02 00 00 (a total of 5 bytes) using "&lt;Compiled NFC_CONTROL_PACKET&gt;" from :"
+<msg time="2024-12-18T11:50:03.981372" level="INFO">built: 20 01 02 00 00 (a total of 5 bytes) using "&lt;Compiled NFC_CONTROL_PACKET&gt;" from :"
 {'header': {'GID': EnumIntegerString.new(0, 'CORE'),
             'MT': EnumIntegerString.new(1, 'ControlPacketCommand'),
             'OID': EnumIntegerString.new(1, 'CORE_INIT'),
@@ -506,16 +506,16 @@
  'payload': {'ConstValue': b'\x00\x00'},
  'payload_length': 2}" </msg>
 <doc>Writes binary data to a file or sends it over a socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.113891" elapsed="0.001590"/>
+<status status="PASS" start="2024-12-18T11:50:03.980084" elapsed="0.001596"/>
 </kw>
 <kw name="Expect Status OK response from ${NFC_INTERFACE}" source_name="Expect Status OK response from ${nfc_INTERFACE}">
 <kw name="Receive message from nfc from ${nfc_INTERFACE}" source_name="Receive message from nfc from ${nfc_INTERFACE}">
 <kw name="Wait For Data From Nfc" owner="nfc_interface">
 <doc>Waits for data from the NFC device.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.118266" elapsed="0.000379"/>
+<status status="PASS" start="2024-12-18T11:50:03.984467" elapsed="0.000333"/>
 </kw>
 <kw name="Parse '${nfc_INTERFACE}' Using Construct '${nfcControlPacket}'" owner="robotframework_construct" source_name="Parse '${binarydata}' using construct '${identifier}'">
-<msg time="2024-12-18T11:38:47.121751" level="INFO">parsed: Container: 
+<msg time="2024-12-18T11:50:03.987976" level="INFO">parsed: Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -525,7 +525,7 @@
     payload_length = 17
     payload = Container: 
         Status = (enum) STATUS_OK 0
-        NFCC_Features = Container: 
+        NFC_Features = Container: 
             Octet_0 = Container: 
                 RFU = 0
                 DiscoverConfigurationmode = (enum) SINGLDE_DH 0
@@ -550,7 +550,7 @@
         Max_Size_for_Large_Parameters = 0
         Manufacture_ID = 255
         Manufacturer_specific_info = b'\x03\x01\x02\x03' (total 4) using &lt;Compiled NFC_CONTROL_PACKET&gt; from 40 01 11 00 01 06 00 00 01 32 00 ff 00 00 00 ff 03 01 02 03</msg>
-<msg time="2024-12-18T11:38:47.122962" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.989139" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -560,13 +560,13 @@
     pa...</msg>
 <var>${RESPONSE}</var>
 <doc>Parses binary data using a construct. The binary data can be a byte array, a readable binary file object, or a TCP/UDP socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.119218" elapsed="0.003947"/>
+<status status="PASS" start="2024-12-18T11:50:03.985344" elapsed="0.004013"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:47.123458" elapsed="0.000186"/>
+<status status="PASS" start="2024-12-18T11:50:03.989718" elapsed="0.000185"/>
 </return>
-<msg time="2024-12-18T11:38:47.124822" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:03.991263" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -575,20 +575,20 @@
         OID = (enum) CORE_INIT 1
     pa...</msg>
 <var>${RESPONSE}</var>
-<status status="PASS" start="2024-12-18T11:38:47.117257" elapsed="0.007729"/>
+<status status="PASS" start="2024-12-18T11:50:03.983498" elapsed="0.007892"/>
 </kw>
 <kw name="Element 'payload.Status' in '${RESPONSE}' should be equal to '${GENERIC_STATUS_CODE.STATUS_OK}'" owner="robotframework_construct" source_name="Element '${locator}' in '${constructDict}' should be equal to '${expectedValue}'">
 <doc>Checks that the element located at locator in construct is equal to expectedValue.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.125720" elapsed="0.002484"/>
+<status status="PASS" start="2024-12-18T11:50:03.992332" elapsed="0.002596"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:47.128392" elapsed="0.000103"/>
+<status status="PASS" start="2024-12-18T11:50:03.995119" elapsed="0.000193"/>
 </return>
-<status status="PASS" start="2024-12-18T11:38:47.116176" elapsed="0.012654"/>
+<status status="PASS" start="2024-12-18T11:50:03.982360" elapsed="0.013300"/>
 </kw>
 <kw name="Write Binary Data Generated From '${NFC_DISCVER_CMD}' Using Construct '${NFCControlPacket}' To '${NFC_INTERFACE}'" owner="robotframework_construct" source_name="Write binary data generated from '${data}' using construct '${identifier}' to '${file}'">
-<msg time="2024-12-18T11:38:47.132271" level="INFO">built: 21 03 0d 06 00 02 01 02 02 02 06 02 80 02 82 02 (a total of 16 bytes) using "&lt;Compiled NFC_CONTROL_PACKET&gt;" from :"
+<msg time="2024-12-18T11:50:03.998689" level="INFO">built: 21 03 0d 06 00 02 01 02 02 02 06 02 80 02 82 02 (a total of 16 bytes) using "&lt;Compiled NFC_CONTROL_PACKET&gt;" from :"
 {'header': {'GID': EnumIntegerString.new(1, 'RF'),
             'MT': EnumIntegerString.new(1, 'ControlPacketCommand'),
             'OID': EnumIntegerString.new(3, 'RF_DISCOVER'),
@@ -609,16 +609,16 @@
                                   'RF_Technology_and_Mode': EnumIntegerString.new(130, 'NFC_F_PASSIVE_LISTEN_MODE')}]},
  'payload_length': 13}" </msg>
 <doc>Writes binary data to a file or sends it over a socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.129518" elapsed="0.003218"/>
+<status status="PASS" start="2024-12-18T11:50:03.996331" elapsed="0.002837"/>
 </kw>
 <kw name="Expect Status OK response from ${NFC_INTERFACE}" source_name="Expect Status OK response from ${nfc_INTERFACE}">
 <kw name="Receive message from nfc from ${nfc_INTERFACE}" source_name="Receive message from nfc from ${nfc_INTERFACE}">
 <kw name="Wait For Data From Nfc" owner="nfc_interface">
 <doc>Waits for data from the NFC device.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.135011" elapsed="0.000282"/>
+<status status="PASS" start="2024-12-18T11:50:04.001528" elapsed="0.000266"/>
 </kw>
 <kw name="Parse '${nfc_INTERFACE}' Using Construct '${nfcControlPacket}'" owner="robotframework_construct" source_name="Parse '${binarydata}' using construct '${identifier}'">
-<msg time="2024-12-18T11:38:47.136820" level="INFO">parsed: Container: 
+<msg time="2024-12-18T11:50:04.003154" level="INFO">parsed: Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -628,7 +628,7 @@
     payload_length = 1
     payload = Container: 
         Status = (enum) STATUS_OK 0 using &lt;Compiled NFC_CONTROL_PACKET&gt; from 41 03 01 00</msg>
-<msg time="2024-12-18T11:38:47.137131" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:04.003438" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -638,13 +638,13 @@
     pa...</msg>
 <var>${RESPONSE}</var>
 <doc>Parses binary data using a construct. The binary data can be a byte array, a readable binary file object, or a TCP/UDP socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.135703" elapsed="0.001512"/>
+<status status="PASS" start="2024-12-18T11:50:04.002181" elapsed="0.001308"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:47.137372" elapsed="0.000093"/>
+<status status="PASS" start="2024-12-18T11:50:04.003613" elapsed="0.000075"/>
 </return>
-<msg time="2024-12-18T11:38:47.137982" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:04.004099" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketResponse 2
         PBF = (enum) endOfMessage 0
@@ -653,30 +653,30 @@
         OID = (enum) RF_DISCOVER 3
     pa...</msg>
 <var>${RESPONSE}</var>
-<status status="PASS" start="2024-12-18T11:38:47.134265" elapsed="0.003779"/>
+<status status="PASS" start="2024-12-18T11:50:04.000785" elapsed="0.003368"/>
 </kw>
 <kw name="Element 'payload.Status' in '${RESPONSE}' should be equal to '${GENERIC_STATUS_CODE.STATUS_OK}'" owner="robotframework_construct" source_name="Element '${locator}' in '${constructDict}' should be equal to '${expectedValue}'">
 <doc>Checks that the element located at locator in construct is equal to expectedValue.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.138485" elapsed="0.002121"/>
+<status status="PASS" start="2024-12-18T11:50:04.004614" elapsed="0.001673"/>
 </kw>
 <return>
 <value>${RESPONSE}</value>
-<status status="PASS" start="2024-12-18T11:38:47.140840" elapsed="0.000215"/>
+<status status="PASS" start="2024-12-18T11:50:04.006473" elapsed="0.000103"/>
 </return>
-<status status="PASS" start="2024-12-18T11:38:47.133408" elapsed="0.007929"/>
+<status status="PASS" start="2024-12-18T11:50:03.999840" elapsed="0.007202"/>
 </kw>
 <kw name="Log To Console" owner="BuiltIn">
 <arg>please place a card on the reader</arg>
 <doc>Logs the given message to the console.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.141841" elapsed="0.000558"/>
+<status status="PASS" start="2024-12-18T11:50:04.007688" elapsed="0.000663"/>
 </kw>
 <kw name="Wait For Data From Nfc" owner="nfc_interface">
 <arg>timeout=1</arg>
 <doc>Waits for data from the NFC device.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.142696" elapsed="0.378653"/>
+<status status="PASS" start="2024-12-18T11:50:04.008958" elapsed="0.378372"/>
 </kw>
 <kw name="Parse '${NFC_INTERFACE}' Using Construct '${NFCControlPacket}'" owner="robotframework_construct" source_name="Parse '${binarydata}' using construct '${identifier}'">
-<msg time="2024-12-18T11:38:47.523763" level="INFO">parsed: Container: 
+<msg time="2024-12-18T11:50:04.390055" level="INFO">parsed: Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -687,7 +687,7 @@
     payload = Container: 
         NumTargets = 1
         Payload = b'\x04\x00\t\x02\x00\x04BZ\xb8\x00\x018\x02' (total 13) using &lt;Compiled NFC_CONTROL_PACKET&gt; from 61 03 0e 01 04 00 09 02 00 04 42 5a b8 00 01 38 02</msg>
-<msg time="2024-12-18T11:38:47.524335" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:04.390581" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -697,15 +697,15 @@
   ...</msg>
 <var>${RESPONSE}</var>
 <doc>Parses binary data using a construct. The binary data can be a byte array, a readable binary file object, or a TCP/UDP socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.522215" elapsed="0.002233"/>
+<status status="PASS" start="2024-12-18T11:50:04.388323" elapsed="0.002330"/>
 </kw>
 <kw name="Wait For Data From Nfc" owner="nfc_interface">
 <arg>timeout=1</arg>
 <doc>Waits for data from the NFC device.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.525142" elapsed="0.000407"/>
+<status status="PASS" start="2024-12-18T11:50:04.391496" elapsed="0.000627"/>
 </kw>
 <kw name="Parse '${NFC_INTERFACE}' Using Construct '${nfcControlPacket}'" owner="robotframework_construct" source_name="Parse '${binarydata}' using construct '${identifier}'">
-<msg time="2024-12-18T11:38:47.527776" level="INFO">parsed: Container: 
+<msg time="2024-12-18T11:50:04.393703" level="INFO">parsed: Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -716,7 +716,7 @@
     payload = Container: 
         NumTargets = 2
         Payload = b'\x06\x06\x0c\x00\x02@\xce\xa1\x18f$\x16\xe0\xab\xa4\x00' (total 16) using &lt;Compiled NFC_CONTROL_PACKET&gt; from 61 03 11 02 06 06 0c 00 02 40 ce a1 18 66 24 16 e0 ab a4 00</msg>
-<msg time="2024-12-18T11:38:47.528356" level="INFO">${RESPONSE} = Container: 
+<msg time="2024-12-18T11:50:04.394117" level="INFO">${RESPONSE} = Container: 
     header = Container: 
         MT = (enum) ControlPacketNotification 3
         PBF = (enum) endOfMessage 0
@@ -726,20 +726,20 @@
   ...</msg>
 <var>${RESPONSE}</var>
 <doc>Parses binary data using a construct. The binary data can be a byte array, a readable binary file object, or a TCP/UDP socket.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.526259" elapsed="0.002151"/>
+<status status="PASS" start="2024-12-18T11:50:04.392672" elapsed="0.001499"/>
 </kw>
 <kw name="Close Nfc Connection" owner="nfc_interface" type="TEARDOWN">
 <doc>Closes the NFC connection by closing the serial connection.</doc>
-<status status="PASS" start="2024-12-18T11:38:47.529320" elapsed="0.011387"/>
+<status status="PASS" start="2024-12-18T11:50:04.394815" elapsed="0.013732"/>
 </kw>
 <doc>This test case resets the NFC options using nfc over UART.</doc>
 <tag>hardware</tag>
-<status status="PASS" start="2024-12-18T11:38:46.829152" elapsed="0.711955"/>
+<status status="PASS" start="2024-12-18T11:50:03.694094" elapsed="0.715036"/>
 </test>
 <doc>This is a simple example for a robot file using robotframework-construct using nfc/nfc as an example using UART.</doc>
-<status status="PASS" start="2024-12-18T11:38:46.144677" elapsed="1.397955"/>
+<status status="PASS" start="2024-12-18T11:50:02.998050" elapsed="1.412947"/>
 </suite>
-<status status="PASS" start="2024-12-18T11:38:46.105525" elapsed="1.440016"/>
+<status status="PASS" start="2024-12-18T11:50:02.958302" elapsed="1.455169"/>
 </suite>
 <statistics>
 <total>

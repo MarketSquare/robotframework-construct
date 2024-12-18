@@ -195,7 +195,7 @@ NFCParameterStruct = Struct(
     )
 )
 
-NFCC_FEATURES = Struct("Octet_0" / BitStruct("RFU"                            / BitsInteger(5),
+NFC_FEATURES = Struct("Octet_0" / BitStruct("RFU"                            / BitsInteger(5),
                                              "DiscoverConfigurationmode"      / Enum(BitsInteger(2),
                                                                                      SINGLDE_DH=0,
                                                                                      MULTI_NFCEEs=1),
@@ -221,7 +221,7 @@ RF_INTERFACES = Enum(Byte,
 CORE_INIT_CMD_PAYLOAD = Struct("ConstValue"       / Const(b"\x00\x00"))
 
 CORE_INIT_RSP_PAYLOAD = Struct("Status"                           / CORE_RESET_RSP_STATUS,
-                               "NFCC_Features"                    / NFCC_FEATURES,
+                               "NFC_Features"                    / NFC_FEATURES,
                                "NumInterfaces"                    / Int8ub,
                                "SupportedInterfaces"              / Array(this.NumInterfaces, RF_INTERFACES),
                                "Max_Logical_Connections"          / Int8ub,
