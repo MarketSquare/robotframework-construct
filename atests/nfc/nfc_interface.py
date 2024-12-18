@@ -4,13 +4,13 @@ import io
 import time
 
 
-class nci_interface():
+class nfc_interface():
     def __init__(self):
         self._serial_connection = None
 
-    def open_nci_connection_via_uart(self, device: str, baudrate: int, timeout=1.0):
+    def open_nfc_connection_via_uart(self, device: str, baudrate: int, timeout=1.0):
         """
-        Opens a connection to a NCI device via UART.
+        Opens a connection to a NFC device via UART.
 
         Returns a tuple of two file objects, first one for reading and second one for writing.
         """
@@ -26,11 +26,11 @@ class nci_interface():
         return self._serial_connection # Alternatively, on linux we can use self._serial_connection.fileno() + select instead of the timeout read...
 
 
-    def wait_for_data_from_nci(self, timeout: float = 1.0):
+    def wait_for_data_from_nfc(self, timeout: float = 1.0):
         """
-        Waits for data from the NCI device.
+        Waits for data from the NFC device.
 
-        Raises an exception if the NCI connection is not open.
+        Raises an exception if the NFC connection is not open.
         """
         if self._serial_connection and self._serial_connection.is_open:
             try:
@@ -40,26 +40,26 @@ class nci_interface():
                     endTime = time.time() + timeout
                     while time.time() < endTime and not self._serial_connection.in_waiting:
                         time.sleep(0.001)
-                    assert self._serial_connection.in_waiting, "Timeout while waiting for data from NCI device"
+                    assert self._serial_connection.in_waiting, "Timeout while waiting for data from NFC device"
         else:
-            raise Exception("NCI connection is not open")
+            raise Exception("NFC connection is not open")
 
-    def close_nci_connection(self):
+    def close_nfc_connection(self):
         """
-        Closes the NCI connection by closing the serial connection.
+        Closes the NFC connection by closing the serial connection.
         """
         if self._serial_connection and self._serial_connection.is_open:
             self._serial_connection.close()
         else:
-            raise Exception("NCI connection is not open")
+            raise Exception("NFC connection is not open")
 
-    def nci_connection_receive_buffer_should_be_empty(self):
+    def nfc_connection_receive_buffer_should_be_empty(self):
         """
         Verifies that the receive buffer is empty.
         """
         assert 0 == self._serial_connection.in_waiting
 
-    def empty_nci_connection_receive_buffer(self):
+    def empty_nfc_connection_receive_buffer(self):
         """
         Empties the receive buffer.
 

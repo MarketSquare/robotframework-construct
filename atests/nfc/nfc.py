@@ -17,7 +17,7 @@ GID = Enum(BitsInteger(4),
               NFCEE=2,
               Proprietary=0xF)
 
-OID_NCI_Core = Enum(BitsInteger(6),
+OID_NFC_Core = Enum(BitsInteger(6),
                     CORE_RESET=0,
                     CORE_INIT=1,
                     CORE_SET_CONFIG=2,
@@ -129,11 +129,11 @@ RF_DISCOVER_NTF_RF_DISCOVERY_RF_ID = Enum(
     RFU_255=255  # RFU (Value 255)
 ) # Table 53
 
-CONFIGURATION_STATUS = Enum(Byte,NCI_RF_CONFIGURATION_KEPT=0,
-                                 NCI_RF_CONFIGURATION_RESET=1) # Table 7
+CONFIGURATION_STATUS = Enum(Byte,NFC_RF_CONFIGURATION_KEPT=0,
+                                 NFC_RF_CONFIGURATION_RESET=1) # Table 7
 
-NCI_VERSION = Enum(Byte, NCI_VERSION_1_0=0x10,
-                         NCI_VERSION_2_0=0x20) # Table 6
+NFC_VERSION = Enum(Byte, NFC_VERSION_1_0=0x10,
+                         NFC_VERSION_2_0=0x20) # Table 6
 
 CORE_RESET_NTF_STATUS_REASON_CODE = Enum(Byte, UNSPECIFIED=0x00,
                                                CORE_RESET_TRIGGERED=0x01)
@@ -232,7 +232,7 @@ CORE_INIT_RSP_PAYLOAD = Struct("Status"                           / CORE_RESET_R
                                "Manufacturer_specific_info"       / Bytes(4))
 
 CORE_RESET_RSP = Struct("Status"               / If(this._.payload_length>=1, CORE_RESET_RSP_STATUS),
-                        "NCI_Version"          / If(this._.payload_length>=2, NCI_VERSION),
+                        "NFC_Version"          / If(this._.payload_length>=2, NFC_VERSION),
                         "ConfigurationStatus"  / If(this._.payload_length>=3, CONFIGURATION_STATUS),
                         "padding"              / If(this._.payload_length> 3, Bytes(this._.payload_length-3)))
 
@@ -240,7 +240,7 @@ CORE_RESET_NTF = Struct("Reason"              / CORE_RESET_NTF_STATUS_REASON_COD
                         "ConfigurationStatus" / CONFIGURATION_STATUS,
                         "padding"              / If(this._.payload_length> 2, Bytes(this._.payload_length-2)))
 
-NCI_DATA_PACKET = Struct(
+NFC_DATA_PACKET = Struct(
     "header"            / BitStruct(
         "MT"            / MT,
         "PBF"           / PBF,
@@ -254,30 +254,30 @@ NCI_DATA_PACKET = Struct(
 
 CORE_RESET_CMD_PAYLOAD = Struct("ResetType" / CORE_RESET_CMD)
 
-NCI_CONTROL_PACKET = Struct(
+NFC_CONTROL_PACKET = Struct(
     "header" / BitStruct("MT" / MT,
                          "PBF" / PBF,
                          "GID" / GID,
                          "RFU" / BitsInteger(2),
-                         "OID" / Switch(this.GID, {GID.CORE: OID_NCI_Core, GID.RF: OID_RF_Management, GID.NFCEE: OID_NFCEE_Management})),
+                         "OID" / Switch(this.GID, {GID.CORE: OID_NFC_Core, GID.RF: OID_RF_Management, GID.NFCEE: OID_NFCEE_Management})),
     "payload_length" / Int8ub,
-    "payload" / Switch((this.header.MT, this.header.GID, this.header.OID,), {(MT.ControlPacketCommand,      GID.CORE, OID_NCI_Core.CORE_RESET,):         CORE_RESET_CMD_PAYLOAD,
-                                                                             (MT.ControlPacketResponse,     GID.CORE, OID_NCI_Core.CORE_RESET,):         CORE_RESET_RSP,
-                                                                             (MT.ControlPacketNotification, GID.CORE, OID_NCI_Core.CORE_RESET,):         CORE_RESET_NTF,
-                                                                             (MT.ControlPacketCommand,      GID.CORE, OID_NCI_Core.CORE_INIT,):          CORE_INIT_CMD_PAYLOAD,
-                                                                             (MT.ControlPacketResponse,     GID.CORE, OID_NCI_Core.CORE_INIT,):          CORE_INIT_RSP_PAYLOAD,
+    "payload" / Switch((this.header.MT, this.header.GID, this.header.OID,), {(MT.ControlPacketCommand,      GID.CORE, OID_NFC_Core.CORE_RESET,):         CORE_RESET_CMD_PAYLOAD,
+                                                                             (MT.ControlPacketResponse,     GID.CORE, OID_NFC_Core.CORE_RESET,):         CORE_RESET_RSP,
+                                                                             (MT.ControlPacketNotification, GID.CORE, OID_NFC_Core.CORE_RESET,):         CORE_RESET_NTF,
+                                                                             (MT.ControlPacketCommand,      GID.CORE, OID_NFC_Core.CORE_INIT,):          CORE_INIT_CMD_PAYLOAD,
+                                                                             (MT.ControlPacketResponse,     GID.CORE, OID_NFC_Core.CORE_INIT,):          CORE_INIT_RSP_PAYLOAD,
                                                                              (MT.ControlPacketCommand,      GID.RF, OID_RF_Management.RF_DISCOVER,):     RF_DISCOVER_CMD_PAYLOAD,
                                                                              (MT.ControlPacketResponse,     GID.RF, OID_RF_Management.RF_DISCOVER,):    RF_DISCOVER_RSP_PAYLOAD,
                                                                              (MT.ControlPacketNotification, GID.RF, OID_RF_Management.RF_DISCOVER,):    RF_DISCOVER_NTF_PAYLOAD,
                                                                              })).compile()
-NCI_CONTROL_PACKET.name = "NCI_CONTROL_PACKET"
+NFC_CONTROL_PACKET.name = "NFC_CONTROL_PACKET"
 
 
 NFC_RST_CMD=   {"header": {"MT": MT.ControlPacketCommand,
                                  "PBF": 0,
                                  "GID": GID.CORE,
                                  "RFU": 0,
-                                 "OID": OID_NCI_Core.CORE_RESET},
+                                 "OID": OID_NFC_Core.CORE_RESET},
                       "payload_length": 1,
                       "payload": {"ResetType": CORE_RESET_CMD.RESET_CONFIGURATION},
                       "padding": b""}
@@ -286,14 +286,14 @@ NFC_INIT_CMD=   {"header": {"MT": MT.ControlPacketCommand,
                                  "PBF": 0,
                                  "GID": GID.CORE,
                                  "RFU": 0,
-                                 "OID": OID_NCI_Core.CORE_INIT},
+                                 "OID": OID_NFC_Core.CORE_INIT},
                       "payload_length": 2,
                       "payload": {"ConstValue": b"\x00\x00"},
                       "padding": b""}
 
 
 
-NCI_DISCVER_CMD = {"header": {"MT": MT.ControlPacketCommand,
+NFC_DISCVER_CMD = {"header": {"MT": MT.ControlPacketCommand,
                                   "PBF": 0,
                                   "GID": GID.RF,
                                   "RFU": 0,
