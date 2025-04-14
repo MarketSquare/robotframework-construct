@@ -26,7 +26,7 @@ jobs:
       
       - name: Upload cosmic ray log
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cosmic_ray_log
           path: report_mutations*.html
