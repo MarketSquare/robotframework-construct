@@ -196,7 +196,7 @@ Since this project primarily consists of interface code, catching user errors an
 - [x] Add a second real-world example with a binary interface to Readme
 - [x] Have libdoc documentation online
 - [x] Have libdoc documentation online for all keywords, not only the central ones
-- [ ] User guide and tutorials/Article for (https://medium.com/@RobotFramework/).
+- [x] User guide and tutorials/Article for (https://medium.com/@RobotFramework/): [Robotframework-construct](https://medium.com/@RobotFramework/robotframework-construct-bdf7a2bc0c12)
 - [x] Example of how to break out of the Python ecosystem
 - [x] Midway review with Robot Framework Foundation.
 - [x] Final review with Robot Framework Foundation.
