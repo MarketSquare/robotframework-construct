@@ -32,5 +32,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: robot-log
+          name: robot-log-${{ matrix.python-version }}
           path: log.html
